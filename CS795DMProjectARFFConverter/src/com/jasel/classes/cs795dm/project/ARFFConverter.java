@@ -18,7 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author jasel
  *
  */
-public class Convert {
+public class ARFFConverter {
 	private final static String FILENAME = "projectdata.xlsx";
 	private static StringBuilder sbRecordTypeRange = new StringBuilder("{1");
 	private static StringBuilder sbUserIDRange = new StringBuilder("{U01");
