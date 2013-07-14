@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -19,6 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  */
 public class ARFFConverter {
+	static Logger logger = Logger.getLogger(ARFFConverter.class);
+	
 	private final static String FILENAME = "projectdata.xlsx";
 	private static StringBuilder sbRecordTypeRange = new StringBuilder("{1");
 	private static StringBuilder sbUserIDRange = new StringBuilder("{U01");
@@ -45,6 +49,7 @@ public class ARFFConverter {
 		XSSFCell cell = null;
 		Iterator<Cell> cellIterator = null;
 		
+		BasicConfigurator.configure();
 		
 		generateValueRanges();
 		
@@ -80,6 +85,7 @@ public class ARFFConverter {
 					emailBuilder.addDataInstance(row);
 					break;
 				default:
+					logger.fatal("Instance did not have a valid RecordType");
 					break;
 			}
 		}
