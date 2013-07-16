@@ -42,7 +42,7 @@ public class EmailPatternBuilder {
 	
 	public void addDataInstance(Iterator<Cell> cellIterator) throws IOException {
 		XSSFCell cell = null;
-		String temp = "";
+		int temp = 0;
 		
 		while (cellIterator.hasNext()) {
 			bw.append("1,");  // RecordType
@@ -51,9 +51,9 @@ public class EmailPatternBuilder {
 			cell = (XSSFCell)cellIterator.next();
 			bw.append(cell.getStringCellValue() + ",");  // HostMachineID
 			cell = (XSSFCell)cellIterator.next();
-			temp = cell.getStringCellValue();
+			temp = (int)cell.getNumericCellValue();
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(temp + cell.getStringCellValue() + ",");  // Start Date/Time
+			bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
 			cell = (XSSFCell)cellIterator.next();
 			bw.append(cell.getStringCellValue() + ",");  // EmailProgramID
 			cell = (XSSFCell)cellIterator.next();
@@ -61,9 +61,9 @@ public class EmailPatternBuilder {
 			cell = (XSSFCell)cellIterator.next();
 			bw.append(cell.getStringCellValue() + ",");  // Action
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // Bytes
+			bw.append((int)cell.getNumericCellValue() + ",");  // Bytes
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + "\n");  // Attachments
+			bw.append((int)cell.getNumericCellValue() + "\n");  // Attachments
 			
 			logger.info("Sent one Email Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 		}
