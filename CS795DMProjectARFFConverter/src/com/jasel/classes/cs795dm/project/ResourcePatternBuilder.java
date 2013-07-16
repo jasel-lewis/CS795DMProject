@@ -5,15 +5,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class ResourcePatternBuilder {
+	static Logger logger = Logger.getLogger(ResourcePatternBuilder.class);
+	
 	private BufferedWriter bw = null;
+	private String filename = null;
 	
 	public ResourcePatternBuilder(String filename, String recordTypeRange, String userIDRange, String hostMachineIDRange,
 			String programIDRange, String fileIDRange, String resourceActionRange, String printerIDRange) throws IOException {
+		this.filename = filename;
+		
 		bw = new BufferedWriter(new FileWriter(filename));
+		
+		logger.info("Opened the file \"" + filename + "\" for writing.");
 		
 		bw.append("@relation resourcedata\n\n");
 		bw.append("@attribute RecordType " + recordTypeRange + "\n");
@@ -27,6 +35,8 @@ public class ResourcePatternBuilder {
 		bw.append("@attribute PrinterID " + printerIDRange + "\n");
 		bw.append("@attribute Pages numeric\n\n");
 		bw.append("@data\n");
+		
+		logger.info("Wrote ARFF header information to \"" + filename + "\"");
 	}
 	
 	
@@ -56,7 +66,9 @@ public class ResourcePatternBuilder {
 			cell = (XSSFCell)cellIterator.next();
 			bw.append(cell.getStringCellValue() + ",");  // PrinterID
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue());  // Pages
+			bw.append(cell.getStringCellValue() + "\n");  // Pages
+			
+			logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 		}
 	}
 	
@@ -64,5 +76,6 @@ public class ResourcePatternBuilder {
 	
 	public void commit() throws IOException {
 		bw.close();
+		logger.info("Closed the file \"" + filename + "\".");
 	}
 }

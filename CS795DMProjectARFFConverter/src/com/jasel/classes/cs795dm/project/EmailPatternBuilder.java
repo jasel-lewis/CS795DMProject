@@ -5,15 +5,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class EmailPatternBuilder {
+	static Logger logger = Logger.getLogger(EmailPatternBuilder.class);
+	
 	private BufferedWriter bw = null;
+	private String filename = null;
 	
 	public EmailPatternBuilder(String filename, String recordTypeRange, String userIDRange, String hostMachineIDRange,
 			String emailProgramIDRange, String emailActionRange) throws IOException {
+		this.filename = filename;
+		
 		bw = new BufferedWriter(new FileWriter(filename));
+		
+		logger.info("Opened the file \"" + filename + "\" for writing.");
 		
 		bw.append("@relation emaildata\n\n");
 		bw.append("@attribute RecordType " + recordTypeRange + "\n");
@@ -26,6 +34,8 @@ public class EmailPatternBuilder {
 		bw.append("@attribute Bytes numeric\n");
 		bw.append("@attribute Attachments numeric\n\n");
 		bw.append("@data\n");
+		
+		logger.info("Wrote ARFF header information to \"" + filename + "\"");
 	}
 	
 	
@@ -53,7 +63,9 @@ public class EmailPatternBuilder {
 			cell = (XSSFCell)cellIterator.next();
 			bw.append(cell.getStringCellValue() + ",");  // Bytes
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue());  // Attachments
+			bw.append(cell.getStringCellValue() + "\n");  // Attachments
+			
+			logger.info("Sent one Email Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 		}
 	}
 	
@@ -61,5 +73,6 @@ public class EmailPatternBuilder {
 	
 	public void commit() throws IOException {
 		bw.close();
+		logger.info("Closed the file \"" + filename + "\".");
 	}
 }

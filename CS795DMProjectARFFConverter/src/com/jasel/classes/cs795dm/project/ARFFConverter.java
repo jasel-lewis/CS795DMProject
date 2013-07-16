@@ -81,12 +81,15 @@ public class ARFFConverter {
 			
 			switch (Integer.parseInt(cell.getStringCellValue())) {
 				case RecordType.LOGIN:
+					logger.info("Recognized a Login Pattern - sending to LoginPatternBuilder.");
 					loginBuilder.addDataInstance(cellIterator);
 					break;
 				case RecordType.RESOURCE:
+					logger.info("Recognized a Resource Pattern - sending to ResourcPatternBuilder.");
 					resourceBuilder.addDataInstance(cellIterator);
 					break;
 				case RecordType.EMAIL:
+					logger.info("Recognized an Email Pattern - sending to EmailPatternBuilder");
 					emailBuilder.addDataInstance(cellIterator);
 					break;
 				default:
