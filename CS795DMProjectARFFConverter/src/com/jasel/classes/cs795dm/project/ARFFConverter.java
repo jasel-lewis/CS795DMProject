@@ -76,13 +76,13 @@ public class ARFFConverter {
 			
 			switch (Integer.parseInt(cell.getStringCellValue())) {
 				case RecordType.LOGIN:
-					loginBuilder.addDataInstance(row);
+					loginBuilder.addDataInstance(cellIterator);
 					break;
 				case RecordType.RESOURCE:
-					resourceBuilder.addDataInstance(row);
+					resourceBuilder.addDataInstance(cellIterator);
 					break;
 				case RecordType.EMAIL:
-					emailBuilder.addDataInstance(row);
+					emailBuilder.addDataInstance(cellIterator);
 					break;
 				default:
 					logger.fatal("Instance did not have a valid RecordType");
