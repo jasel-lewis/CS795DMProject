@@ -43,7 +43,8 @@ public class ResourcePatternBuilder {
 	
 	public void addDataInstance(Iterator<Cell> cellIterator) throws IOException {
 		XSSFCell cell = null;
-		String temp = "";
+		int temp = 0;
+		String content = "";
 		
 		while (cellIterator.hasNext()) {
 			bw.append("1,");  // RecordType
@@ -52,21 +53,35 @@ public class ResourcePatternBuilder {
 			cell = (XSSFCell)cellIterator.next();
 			bw.append(cell.getStringCellValue() + ",");  // HostMachineID
 			cell = (XSSFCell)cellIterator.next();
-			temp = cell.getStringCellValue();
+			temp = (int)cell.getNumericCellValue();
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(temp + cell.getStringCellValue() + ",");  // Start Date/Time
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // ProgramID
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // ExecutionTime
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // FileID
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // Action
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // PrinterID
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + "\n");  // Pages
+			bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
+			
+			while (cellIterator.hasNext()) {
+				cell = (XSSFCell)cellIterator.next();
+				content = cell.getStringCellValue();
+				
+				switch (content.toUpperCase().charAt(0)) {
+					case 'U':
+						bw.append(content + ",");  // ProgramID
+						cell = (XSSFCell)cellIterator.next();
+						bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
+					case 'L':
+						bw.append(content + ",");  // ProgramID
+						cell = (XSSFCell)cellIterator.next();
+						bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
+					case 'F':
+						bw.append(content + ",");  // FileID
+						cell = (XSSFCell)cellIterator.next();
+						bw.append(cell.getStringCellValue() + ",");  // Action
+					case 'P':
+						bw.append(content + ",");  // PrinterID
+						cell = (XSSFCell)cellIterator.next();
+						bw.append((int)cell.getNumericCellValue() + "\n");  // Pages
+					default:
+						logger.fatal("Resource expected in cell - no resource found/");
+				}
+			}
 			
 			logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 		}
