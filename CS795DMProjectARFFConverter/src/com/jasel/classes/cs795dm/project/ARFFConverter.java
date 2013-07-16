@@ -79,7 +79,7 @@ public class ARFFConverter {
 			
 			cell = (XSSFCell)cellIterator.next();
 			
-			switch (Integer.parseInt(cell.getStringCellValue())) {
+			switch ((int)cell.getNumericCellValue()) {
 				case RecordType.LOGIN:
 					logger.info("Recognized a Login Pattern - sending to LoginPatternBuilder.");
 					loginBuilder.addDataInstance(cellIterator);
