@@ -44,29 +44,27 @@ public class LoginPatternBuilder {
 		XSSFCell cell = null;
 		int temp = 0;
 		
-		while (cellIterator.hasNext()) {
-			bw.append("1,");  // RecordType
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // UserID
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // HostMachineID
-			cell = (XSSFCell)cellIterator.next();
-			temp = (int)cell.getNumericCellValue();
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Login Date/Time
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Logout Date/Time
-			cell = (XSSFCell)cellIterator.next();
-			bw.append((int)cell.getNumericCellValue() + ",");  // AvgUserProcess
-			cell = (XSSFCell)cellIterator.next();
-			bw.append((int)cell.getNumericCellValue() + ",");  // MaxUserProcess
-			cell = (XSSFCell)cellIterator.next();
-			bw.append((int)cell.getNumericCellValue() + ",");  // CharsTyped
-			cell = (XSSFCell)cellIterator.next();
-			bw.append((int)cell.getNumericCellValue() + "\n");  // CPUTime
-			
-			logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
-		}
+		bw.append("1,");  // RecordType
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // UserID
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
+		cell = (XSSFCell)cellIterator.next();
+		temp = (int)cell.getNumericCellValue();
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Login Date/Time
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Logout Date/Time
+		cell = (XSSFCell)cellIterator.next();
+		bw.append((int)cell.getNumericCellValue() + ",");  // AvgUserProcess
+		cell = (XSSFCell)cellIterator.next();
+		bw.append((int)cell.getNumericCellValue() + ",");  // MaxUserProcess
+		cell = (XSSFCell)cellIterator.next();
+		bw.append((int)cell.getNumericCellValue() + ",");  // CharsTyped
+		cell = (XSSFCell)cellIterator.next();
+		bw.append((int)cell.getNumericCellValue() + "\n");  // CPUTime
+		
+		logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
 	
 	

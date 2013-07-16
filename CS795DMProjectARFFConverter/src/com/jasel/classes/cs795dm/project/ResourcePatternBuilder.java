@@ -46,45 +46,43 @@ public class ResourcePatternBuilder {
 		int temp = 0;
 		String content = "";
 		
+		bw.append("1,");  // RecordType
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // UserID
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
+		cell = (XSSFCell)cellIterator.next();
+		temp = (int)cell.getNumericCellValue();
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
+		
 		while (cellIterator.hasNext()) {
-			bw.append("1,");  // RecordType
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // UserID
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // HostMachineID
-			cell = (XSSFCell)cellIterator.next();
-			temp = (int)cell.getNumericCellValue();
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
+			content = cell.getStringCellValue();
 			
-			while (cellIterator.hasNext()) {
-				cell = (XSSFCell)cellIterator.next();
-				content = cell.getStringCellValue();
-				
-				switch (content.toUpperCase().charAt(0)) {
-					case 'U':
-						bw.append(content + ",");  // ProgramID
-						cell = (XSSFCell)cellIterator.next();
-						bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
-					case 'L':
-						bw.append(content + ",");  // ProgramID
-						cell = (XSSFCell)cellIterator.next();
-						bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
-					case 'F':
-						bw.append(content + ",");  // FileID
-						cell = (XSSFCell)cellIterator.next();
-						bw.append(cell.getStringCellValue() + ",");  // Action
-					case 'P':
-						bw.append(content + ",");  // PrinterID
-						cell = (XSSFCell)cellIterator.next();
-						bw.append((int)cell.getNumericCellValue() + "\n");  // Pages
-					default:
-						logger.fatal("Resource expected in cell - no resource found/");
-				}
+			switch (content.toUpperCase().charAt(0)) {
+				case 'U':
+					bw.append(content + ",");  // ProgramID
+					cell = (XSSFCell)cellIterator.next();
+					bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
+				case 'L':
+					bw.append(content + ",");  // ProgramID
+					cell = (XSSFCell)cellIterator.next();
+					bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
+				case 'F':
+					bw.append(content + ",");  // FileID
+					cell = (XSSFCell)cellIterator.next();
+					bw.append(cell.getStringCellValue() + ",");  // Action
+				case 'P':
+					bw.append(content + ",");  // PrinterID
+					cell = (XSSFCell)cellIterator.next();
+					bw.append((int)cell.getNumericCellValue() + "\n");  // Pages
+				default:
+					logger.fatal("Resource expected in cell - no resource found/");
 			}
-			
-			logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 		}
+		
+		logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
 	
 	

@@ -44,29 +44,27 @@ public class EmailPatternBuilder {
 		XSSFCell cell = null;
 		int temp = 0;
 		
-		while (cellIterator.hasNext()) {
-			bw.append("1,");  // RecordType
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // UserID
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // HostMachineID
-			cell = (XSSFCell)cellIterator.next();
-			temp = (int)cell.getNumericCellValue();
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // EmailProgramID
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // Address
-			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // Action
-			cell = (XSSFCell)cellIterator.next();
-			bw.append((int)cell.getNumericCellValue() + ",");  // Bytes
-			cell = (XSSFCell)cellIterator.next();
-			bw.append((int)cell.getNumericCellValue() + "\n");  // Attachments
-			
-			logger.info("Sent one Email Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
-		}
+		bw.append("1,");  // RecordType
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // UserID
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
+		cell = (XSSFCell)cellIterator.next();
+		temp = (int)cell.getNumericCellValue();
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // EmailProgramID
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // Address
+		cell = (XSSFCell)cellIterator.next();
+		bw.append(cell.getStringCellValue() + ",");  // Action
+		cell = (XSSFCell)cellIterator.next();
+		bw.append((int)cell.getNumericCellValue() + ",");  // Bytes
+		cell = (XSSFCell)cellIterator.next();
+		bw.append((int)cell.getNumericCellValue() + "\n");  // Attachments
+		
+		logger.info("Sent one Email Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
 	
 	
