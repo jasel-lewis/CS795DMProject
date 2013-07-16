@@ -42,7 +42,7 @@ public class LoginPatternBuilder {
 	
 	public void addDataInstance(Iterator<Cell> cellIterator) throws IOException {
 		XSSFCell cell = null;
-		String temp = "";
+		int temp = 0;
 		
 		while (cellIterator.hasNext()) {
 			bw.append("1,");  // RecordType
@@ -51,19 +51,19 @@ public class LoginPatternBuilder {
 			cell = (XSSFCell)cellIterator.next();
 			bw.append(cell.getStringCellValue() + ",");  // HostMachineID
 			cell = (XSSFCell)cellIterator.next();
-			temp = cell.getStringCellValue();
+			temp = (int)cell.getNumericCellValue();
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(temp + cell.getStringCellValue() + ",");  // Login Date/Time
+			bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Login Date/Time
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(temp + cell.getStringCellValue() + ",");  // Logout Date/Time
+			bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Logout Date/Time
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // AvgUserProcess
+			bw.append((int)cell.getNumericCellValue() + ",");  // AvgUserProcess
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // MaxUserProcess
+			bw.append((int)cell.getNumericCellValue() + ",");  // MaxUserProcess
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + ",");  // CharsTyped
+			bw.append((int)cell.getNumericCellValue() + ",");  // CharsTyped
 			cell = (XSSFCell)cellIterator.next();
-			bw.append(cell.getStringCellValue() + "\n");  // CPUTime
+			bw.append((int)cell.getNumericCellValue() + "\n");  // CPUTime
 			
 			logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 		}
