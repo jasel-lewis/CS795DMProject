@@ -9,11 +9,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class EmailPatternBuilder {
-	private static final String filename = "emaildata.arff";
-	private BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
+	private BufferedWriter bw = null;
 	
-	public EmailPatternBuilder(String recordTypeRange, String userIDRange, String hostMachineIDRange,
+	public EmailPatternBuilder(String filename, String recordTypeRange, String userIDRange, String hostMachineIDRange,
 			String emailProgramIDRange, String emailActionRange) throws IOException {
+		bw = new BufferedWriter(new FileWriter(filename));
+		
 		bw.append("@relation emaildata\n\n");
 		bw.append("@attribute RecordType " + recordTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");

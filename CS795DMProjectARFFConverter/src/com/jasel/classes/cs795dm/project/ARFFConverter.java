@@ -21,9 +21,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  */
 public class ARFFConverter {
+	private final static String INPUT_FILENAME = "projectdata.xlsx";
+	private final static String LOGIN_OUTPUT_FILENAME = "logindata.arff";
+	private final static String RESOURCE_OUTPUT_FILENAME = "resourcedata.arff";
+	private final static String EMAIL_OUTPUT_FILENAME = "emaildata.arff";
+	
 	static Logger logger = Logger.getLogger(ARFFConverter.class);
 	
-	private final static String FILENAME = "projectdata.xlsx";
 	private static StringBuilder sbRecordTypeRange = new StringBuilder("{1");
 	private static StringBuilder sbUserIDRange = new StringBuilder("{U01");
 	private static StringBuilder sbProgramIDRange = new StringBuilder("{UP001");
@@ -53,16 +57,17 @@ public class ARFFConverter {
 		
 		generateValueRanges();
 		
-		loginBuilder = new LoginPatternBuilder(sbRecordTypeRange.toString(), sbUserIDRange.toString(),
-				sbHostMachineIDRange.toString());
-		resourceBuilder = new ResourcePatternBuilder(sbRecordTypeRange.toString(), sbUserIDRange.toString(),
-				sbHostMachineIDRange.toString(), sbProgramIDRange.toString(), sbFileIDRange.toString(),
-				resourceActionRange, sbPrinterIDRange.toString());
-		emailBuilder = new EmailPatternBuilder(sbRecordTypeRange.toString(), sbUserIDRange.toString(),
-				sbHostMachineIDRange.toString(), sbEmailProgramIDRange.toString(), emailActionRange);
+		loginBuilder = new LoginPatternBuilder(LOGIN_OUTPUT_FILENAME, sbRecordTypeRange.toString(),
+				sbUserIDRange.toString(), sbHostMachineIDRange.toString());
+		resourceBuilder = new ResourcePatternBuilder(RESOURCE_OUTPUT_FILENAME, sbRecordTypeRange.toString(),
+				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbProgramIDRange.toString(),
+				sbFileIDRange.toString(), resourceActionRange, sbPrinterIDRange.toString());
+		emailBuilder = new EmailPatternBuilder(EMAIL_OUTPUT_FILENAME, sbRecordTypeRange.toString(),
+				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbEmailProgramIDRange.toString(),
+				emailActionRange);
 		
 		// Create an internal POI XSSF Workbook from the Excel data file
-		workbook = new XSSFWorkbook(new FileInputStream(FILENAME));
+		workbook = new XSSFWorkbook(new FileInputStream(INPUT_FILENAME));
 		
 		worksheet = workbook.getSheetAt(0);
 		

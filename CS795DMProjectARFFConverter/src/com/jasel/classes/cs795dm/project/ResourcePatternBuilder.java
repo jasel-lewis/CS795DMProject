@@ -9,11 +9,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class ResourcePatternBuilder {
-	private static final String filename = "resourcedata.arff";
-	private BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
+	private BufferedWriter bw = null;
 	
-	public ResourcePatternBuilder(String recordTypeRange, String userIDRange, String hostMachineIDRange,
+	public ResourcePatternBuilder(String filename, String recordTypeRange, String userIDRange, String hostMachineIDRange,
 			String programIDRange, String fileIDRange, String resourceActionRange, String printerIDRange) throws IOException {
+		bw = new BufferedWriter(new FileWriter(filename));
+		
 		bw.append("@relation resourcedata\n\n");
 		bw.append("@attribute RecordType " + recordTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");

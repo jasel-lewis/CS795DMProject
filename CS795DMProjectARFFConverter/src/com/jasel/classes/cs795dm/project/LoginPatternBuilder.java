@@ -9,10 +9,12 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class LoginPatternBuilder {
-	private static final String filename = "logindata.arff";
-	private BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
+	private BufferedWriter bw = null;
 	
-	public LoginPatternBuilder(String recordTypeRange, String userIDRange, String hostMachineIDRange) throws IOException {
+	public LoginPatternBuilder(String filename, String recordTypeRange, String userIDRange, String hostMachineIDRange)
+			throws IOException {
+		bw = new BufferedWriter(new FileWriter(filename));
+		
 		bw.append("@relation logindata\n\n");
 		bw.append("@attribute RecordType " + recordTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
