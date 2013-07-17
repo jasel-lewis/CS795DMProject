@@ -7,8 +7,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -26,7 +26,7 @@ public class ARFFConverter {
 	private final static String RESOURCE_OUTPUT_FILENAME = "resourcedata.arff";
 	private final static String EMAIL_OUTPUT_FILENAME = "emaildata.arff";
 	
-	static Logger logger = Logger.getLogger(ARFFConverter.class);
+	private static Logger logger = LogManager.getLogger(ARFFConverter.class);
 	
 	private static StringBuilder sbRecordTypeRange = new StringBuilder("{1");
 	private static StringBuilder sbUserIDRange = new StringBuilder("{U01");
@@ -52,8 +52,6 @@ public class ARFFConverter {
 		Iterator<Row> rowIterator = null;
 		XSSFCell cell = null;
 		Iterator<Cell> cellIterator = null;
-		
-		BasicConfigurator.configure();
 		
 		generateValueRanges();
 		

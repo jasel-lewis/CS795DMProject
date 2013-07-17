@@ -5,12 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class LoginPatternBuilder {
-	static Logger logger = Logger.getLogger(LoginPatternBuilder.class);
+	private static Logger logger = LogManager.getLogger(LoginPatternBuilder.class);
 	
 	private BufferedWriter bw = null;
 	private String filename = null;
@@ -21,7 +22,7 @@ public class LoginPatternBuilder {
 		
 		bw = new BufferedWriter(new FileWriter(filename));
 		
-		logger.info("Opened the file \"" + filename + "\" for writing.");
+		logger.trace("Opened the file \"" + filename + "\" for writing.");
 		
 		bw.append("@relation logindata\n\n");
 		bw.append("@attribute RecordType " + recordTypeRange + "\n");
@@ -35,7 +36,7 @@ public class LoginPatternBuilder {
 		bw.append("@attribute CPUTime numeric\n\n");
 		bw.append("@data\n");
 		
-		logger.info("Wrote ARFF header information to \"" + filename + "\"");
+		logger.trace("Wrote ARFF header information to \"" + filename + "\"");
 	}
 	
 	
@@ -64,13 +65,13 @@ public class LoginPatternBuilder {
 		cell = (XSSFCell)cellIterator.next();
 		bw.append((int)cell.getNumericCellValue() + "\n");  // CPUTime
 		
-		logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
+		logger.trace("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
 	
 	
 	
 	public void commit() throws IOException {
 		bw.close();
-		logger.info("Closed the file \"" + filename + "\".");
+		logger.trace("Closed the file \"" + filename + "\".");
 	}
 }

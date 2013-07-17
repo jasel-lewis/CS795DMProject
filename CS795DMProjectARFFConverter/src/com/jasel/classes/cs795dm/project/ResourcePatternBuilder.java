@@ -5,12 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class ResourcePatternBuilder {
-	static Logger logger = Logger.getLogger(ResourcePatternBuilder.class);
+	static Logger logger = LogManager.getLogger(ResourcePatternBuilder.class);
 	
 	private BufferedWriter bw = null;
 	private String filename = null;
@@ -21,7 +22,7 @@ public class ResourcePatternBuilder {
 		
 		bw = new BufferedWriter(new FileWriter(filename));
 		
-		logger.info("Opened the file \"" + filename + "\" for writing.");
+		logger.trace("Opened the file \"" + filename + "\" for writing.");
 		
 		bw.append("@relation resourcedata\n\n");
 		bw.append("@attribute RecordType " + recordTypeRange + "\n");
@@ -36,7 +37,7 @@ public class ResourcePatternBuilder {
 		bw.append("@attribute Pages numeric\n\n");
 		bw.append("@data\n");
 		
-		logger.info("Wrote ARFF header information to \"" + filename + "\"");
+		logger.trace("Wrote ARFF header information to \"" + filename + "\"");
 	}
 	
 	
@@ -82,13 +83,13 @@ public class ResourcePatternBuilder {
 			}
 		}
 		
-		logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
+		logger.trace("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
 	
 	
 	
 	public void commit() throws IOException {
 		bw.close();
-		logger.info("Closed the file \"" + filename + "\".");
+		logger.trace("Closed the file \"" + filename + "\".");
 	}
 }
