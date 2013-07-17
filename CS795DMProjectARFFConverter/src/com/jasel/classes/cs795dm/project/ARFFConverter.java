@@ -52,6 +52,7 @@ public class ARFFConverter {
 		Iterator<Row> rowIterator = null;
 		XSSFCell cell = null;
 		Iterator<Cell> cellIterator = null;
+System.err.println(logger.isTraceEnabled());
 		
 		generateValueRanges();
 		
