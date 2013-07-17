@@ -124,6 +124,10 @@ public class ResourcePatternBuilder {
 		
 		bw.append("\n");
 		
+		// Hate to have to do it like this - thought I could trust BufferedWriter to handle itself
+		// but the output was consistently cutting out at a specific spot without this next line
+		bw.flush();
+		
 		logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
 	

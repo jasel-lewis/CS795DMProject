@@ -45,6 +45,9 @@ public class ARFFConverter {
 		
 		String line = "";
 		int lineCount = 1;
+		int loginPatternCount = 1;
+		int resourcePatternCount = 1;
+		int emailPatternCount = 1;
 		
 		generateValueRanges();
 		
@@ -58,7 +61,7 @@ public class ARFFConverter {
 				emailActionRange);
 		
 		while ((line = br.readLine()) != null) {
-			logger.trace("** Line " + lineCount);
+			logger.trace("** Line " + lineCount++);
 			
 			// For some reason, Excel is appending a bunch of empty commas as the end of each line
 			// when converting to CSV.  Get rid of them.
@@ -66,15 +69,15 @@ public class ARFFConverter {
 			
 			switch (Integer.parseInt(line.substring(0, 1))) {
 				case RecordType.LOGIN:
-					logger.info("Recognized a Login Pattern - sending to LoginPatternBuilder.");
+					logger.info("Recognized a Login Pattern (# " + loginPatternCount++ + ") - sending to LoginPatternBuilder.");
 					loginBuilder.addDataInstance(line);
 					break;
 				case RecordType.RESOURCE:
-					logger.info("Recognized a Resource Pattern - sending to ResourcPatternBuilder.");
+					logger.info("Recognized a Resource Pattern (# " + resourcePatternCount++ + ") - sending to ResourcPatternBuilder.");
 					resourceBuilder.addDataInstance(line);
 					break;
 				case RecordType.EMAIL:
-					logger.info("Recognized an Email Pattern - sending to EmailPatternBuilder");
+					logger.info("Recognized an Email Pattern (# " + emailPatternCount++ + ") - sending to EmailPatternBuilder");
 					emailBuilder.addDataInstance(line);
 					break;
 				default:
@@ -83,8 +86,6 @@ public class ARFFConverter {
 					System.exit(1);
 					break;
 			}
-			
-			lineCount++;
 		}
 		
 		br.close();

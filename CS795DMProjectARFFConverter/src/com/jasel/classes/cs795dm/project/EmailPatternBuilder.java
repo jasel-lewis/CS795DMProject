@@ -94,6 +94,10 @@ public class EmailPatternBuilder {
 		logger.trace("Attachments: " + temp);
 		bw.append(temp + "\n");
 		
+		// Hate to have to do it like this - thought I could trust BufferedWriter to handle itself
+		// but the output was consistently cutting out at a specific spot without this next line
+		bw.flush();
+		
 		logger.info("Sent one Email Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
 	
