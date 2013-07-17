@@ -52,7 +52,6 @@ public class ARFFConverter {
 		Iterator<Row> rowIterator = null;
 		XSSFCell cell = null;
 		Iterator<Cell> cellIterator = null;
-System.err.println(logger.isTraceEnabled());
 		
 		generateValueRanges();
 		
@@ -77,6 +76,8 @@ System.err.println(logger.isTraceEnabled());
 			cellIterator = row.cellIterator();
 			
 			cell = (XSSFCell)cellIterator.next();
+			logger.trace("RecordType cell raw value: " + cell.getRawValue());
+			logger.trace("RecordType cell type: " + cell.getCellType());
 			
 			switch ((int)cell.getNumericCellValue()) {
 				case RecordType.LOGIN:

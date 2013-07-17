@@ -44,7 +44,6 @@ public class ResourcePatternBuilder {
 	
 	public void addDataInstance(Iterator<Cell> cellIterator) throws IOException {
 		XSSFCell cell = null;
-		int temp = 0;
 		String content = "";
 		
 		bw.append("1,");  // RecordType
@@ -56,10 +55,10 @@ public class ResourcePatternBuilder {
 		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("StartDate cell raw value: " + cell.getRawValue());
-		temp = (int)cell.getNumericCellValue();
+		bw.append(cell.getStringCellValue());  // Start Date
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("StartTime cell raw value: " + cell.getRawValue());
-		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
+		bw.append(cell.getStringCellValue() + ",");  // Start Time
 		
 		while (cellIterator.hasNext()) {
 			cell = (XSSFCell)cellIterator.next();
@@ -67,28 +66,27 @@ public class ResourcePatternBuilder {
 			content = cell.getStringCellValue();
 			
 			switch (content.toUpperCase().charAt(0)) {
-				case 'U':
+				case 'U': case 'L':
 					bw.append(content + ",");  // ProgramID
 					cell = (XSSFCell)cellIterator.next();
 					logger.trace("(UserProgram) ExecutionTime cell raw value: " + cell.getRawValue());
-					bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
-				case 'L':
-					bw.append(content + ",");  // ProgramID
-					cell = (XSSFCell)cellIterator.next();
-					logger.trace("(LibraryProgram) ExecutionTime cell raw value: " + cell.getRawValue());
-					bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
+					bw.append(cell.getStringCellValue() + ",");  // ExecutionTime
+					break;
 				case 'F':
 					bw.append(content + ",");  // FileID
 					cell = (XSSFCell)cellIterator.next();
 					logger.trace("(File) Action cell raw value: " + cell.getRawValue());
 					bw.append(cell.getStringCellValue() + ",");  // Action
+					break;
 				case 'P':
 					bw.append(content + ",");  // PrinterID
 					cell = (XSSFCell)cellIterator.next();
 					logger.trace("(Printer) Pages cell raw value: " + cell.getRawValue());
-					bw.append((int)cell.getNumericCellValue() + "\n");  // Pages
+					bw.append(cell.getStringCellValue() + "\n");  // Pages
+					break;
 				default:
 					logger.fatal("Resource expected in cell - no resource found/");
+					break;
 			}
 		}
 		

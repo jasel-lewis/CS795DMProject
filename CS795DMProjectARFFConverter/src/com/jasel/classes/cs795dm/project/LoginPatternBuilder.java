@@ -43,7 +43,7 @@ public class LoginPatternBuilder {
 	
 	public void addDataInstance(Iterator<Cell> cellIterator) throws IOException {
 		XSSFCell cell = null;
-		int temp = 0;
+		String temp = "";
 		
 		bw.append("1,");  // RecordType
 		cell = (XSSFCell)cellIterator.next();
@@ -54,25 +54,25 @@ public class LoginPatternBuilder {
 		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("EventDate cell raw value: " + cell.getRawValue());
-		temp = (int)cell.getNumericCellValue();
+		temp = cell.getStringCellValue();
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("LoginTime cell raw value: " + cell.getRawValue());
-		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Login Date/Time
+		bw.append(temp + cell.getStringCellValue() + ",");  // Login Date/Time
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("LogoutTime cell raw value: " + cell.getRawValue());
-		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Logout Date/Time
+		bw.append(temp + cell.getStringCellValue() + ",");  // Logout Date/Time
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("AvgUserProcess cell raw value: " + cell.getRawValue());
-		bw.append((int)cell.getNumericCellValue() + ",");  // AvgUserProcess
+		bw.append(cell.getStringCellValue() + ",");  // AvgUserProcess
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("MaxUserProcess cell raw value: " + cell.getRawValue());
-		bw.append((int)cell.getNumericCellValue() + ",");  // MaxUserProcess
+		bw.append(cell.getStringCellValue() + ",");  // MaxUserProcess
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("CharsTyped cell raw value: " + cell.getRawValue());
-		bw.append((int)cell.getNumericCellValue() + ",");  // CharsTyped
+		bw.append(cell.getStringCellValue() + ",");  // CharsTyped
 		cell = (XSSFCell)cellIterator.next();
 		logger.trace("CPUTime cell raw value: " + cell.getRawValue());
-		bw.append((int)cell.getNumericCellValue() + "\n");  // CPUTime
+		bw.append(cell.getStringCellValue() + "\n");  // CPUTime
 		
 		logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
