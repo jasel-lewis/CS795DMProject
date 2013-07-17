@@ -22,7 +22,7 @@ public class ResourcePatternBuilder {
 		
 		bw = new BufferedWriter(new FileWriter(filename));
 		
-		logger.trace("Opened the file \"" + filename + "\" for writing.");
+		logger.info("Opened the file \"" + filename + "\" for writing.");
 		
 		bw.append("@relation resourcedata\n\n");
 		bw.append("@attribute RecordType " + recordTypeRange + "\n");
@@ -37,7 +37,7 @@ public class ResourcePatternBuilder {
 		bw.append("@attribute Pages numeric\n\n");
 		bw.append("@data\n");
 		
-		logger.trace("Wrote ARFF header information to \"" + filename + "\"");
+		logger.info("Wrote ARFF header information to \"" + filename + "\"");
 	}
 	
 	
@@ -83,13 +83,13 @@ public class ResourcePatternBuilder {
 			}
 		}
 		
-		logger.trace("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
+		logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}
 	
 	
 	
 	public void commit() throws IOException {
 		bw.close();
-		logger.trace("Closed the file \"" + filename + "\".");
+		logger.info("Closed the file \"" + filename + "\".");
 	}
 }
