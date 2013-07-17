@@ -47,22 +47,31 @@ public class LoginPatternBuilder {
 		
 		bw.append("1,");  // RecordType
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("UserID cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // UserID
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("HostMachineID cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("EventDate cell raw value: " + cell.getRawValue());
 		temp = (int)cell.getNumericCellValue();
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("LoginTime cell raw value: " + cell.getRawValue());
 		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Login Date/Time
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("LogoutTime cell raw value: " + cell.getRawValue());
 		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Logout Date/Time
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("AvgUserProcess cell raw value: " + cell.getRawValue());
 		bw.append((int)cell.getNumericCellValue() + ",");  // AvgUserProcess
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("MaxUserProcess cell raw value: " + cell.getRawValue());
 		bw.append((int)cell.getNumericCellValue() + ",");  // MaxUserProcess
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("CharsTyped cell raw value: " + cell.getRawValue());
 		bw.append((int)cell.getNumericCellValue() + ",");  // CharsTyped
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("CPUTime cell raw value: " + cell.getRawValue());
 		bw.append((int)cell.getNumericCellValue() + "\n");  // CPUTime
 		
 		logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");

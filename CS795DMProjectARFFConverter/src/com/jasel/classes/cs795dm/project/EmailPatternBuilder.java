@@ -47,22 +47,31 @@ public class EmailPatternBuilder {
 		
 		bw.append("1,");  // RecordType
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("UserID cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // UserID
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("HostMachineID cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("StartDate cell raw value: " + cell.getRawValue());
 		temp = (int)cell.getNumericCellValue();
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("StartTime cell raw value: " + cell.getRawValue());
 		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("EmailProgramID cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // EmailProgramID
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("Address cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // Address
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("Action cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // Action
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("Bytes cell raw value: " + cell.getRawValue());
 		bw.append((int)cell.getNumericCellValue() + ",");  // Bytes
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("Attachments cell raw value: " + cell.getRawValue());
 		bw.append((int)cell.getNumericCellValue() + "\n");  // Attachments
 		
 		logger.info("Sent one Email Pattern instance to the BufferedWriter for the file \"" + filename + "\".");

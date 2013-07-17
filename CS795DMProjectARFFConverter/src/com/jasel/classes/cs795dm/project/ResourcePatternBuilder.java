@@ -49,34 +49,43 @@ public class ResourcePatternBuilder {
 		
 		bw.append("1,");  // RecordType
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("UserID cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // UserID
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("HostMachineID cell raw value: " + cell.getRawValue());
 		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("StartDate cell raw value: " + cell.getRawValue());
 		temp = (int)cell.getNumericCellValue();
 		cell = (XSSFCell)cellIterator.next();
+		logger.trace("StartTime cell raw value: " + cell.getRawValue());
 		bw.append(temp + (int)cell.getNumericCellValue() + ",");  // Start Date/Time
 		
 		while (cellIterator.hasNext()) {
 			cell = (XSSFCell)cellIterator.next();
+			logger.trace("First resource cell raw value: " + cell.getRawValue());
 			content = cell.getStringCellValue();
 			
 			switch (content.toUpperCase().charAt(0)) {
 				case 'U':
 					bw.append(content + ",");  // ProgramID
 					cell = (XSSFCell)cellIterator.next();
+					logger.trace("(UserProgram) ExecutionTime cell raw value: " + cell.getRawValue());
 					bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
 				case 'L':
 					bw.append(content + ",");  // ProgramID
 					cell = (XSSFCell)cellIterator.next();
+					logger.trace("(LibraryProgram) ExecutionTime cell raw value: " + cell.getRawValue());
 					bw.append((int)cell.getNumericCellValue() + ",");  // ExecutionTime
 				case 'F':
 					bw.append(content + ",");  // FileID
 					cell = (XSSFCell)cellIterator.next();
+					logger.trace("(File) Action cell raw value: " + cell.getRawValue());
 					bw.append(cell.getStringCellValue() + ",");  // Action
 				case 'P':
 					bw.append(content + ",");  // PrinterID
 					cell = (XSSFCell)cellIterator.next();
+					logger.trace("(Printer) Pages cell raw value: " + cell.getRawValue());
 					bw.append((int)cell.getNumericCellValue() + "\n");  // Pages
 				default:
 					logger.fatal("Resource expected in cell - no resource found/");
