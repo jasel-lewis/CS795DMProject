@@ -3,12 +3,12 @@ package com.jasel.classes.cs795dm.project;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class ResourcePatternBuilder {
 	static Logger logger = LogManager.getLogger(ResourcePatternBuilder.class);
@@ -42,53 +42,87 @@ public class ResourcePatternBuilder {
 	
 	
 	
-	public void addDataInstance(Iterator<Cell> cellIterator) throws IOException {
-		XSSFCell cell = null;
-		String content = "";
+	public void addDataInstance(String instance) throws IOException {
+		String temp = "";
+		List<String> attributes = Arrays.asList(instance.split(","));
+		Iterator<String> iterator = attributes.iterator();
 		
-		bw.append("1,");  // RecordType
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("UserID cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // UserID
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("HostMachineID cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("StartDate cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue());  // Start Date
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("StartTime cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // Start Time
+		logger.debug("Instance: " + instance);
+		logger.debug("Number of attributes: " + attributes.size());
 		
-		while (cellIterator.hasNext()) {
-			cell = (XSSFCell)cellIterator.next();
-			logger.trace("First resource cell raw value: " + cell.getRawValue());
-			content = cell.getStringCellValue();
+		// RecordType
+		temp = iterator.next();
+		logger.trace("RecordType: " + temp);
+		bw.append(temp + ",");
+		
+		// UserID
+		temp = iterator.next();
+		logger.trace("UserID: " + temp);
+		bw.append(temp + ",");
+		
+		// HostMachineID
+		temp = iterator.next();
+		logger.trace("HostMachineID: " + temp);
+		bw.append(temp + ",");
+		
+		// StartDate
+		temp = iterator.next();
+		logger.trace("StartDate: " + temp);
+		bw.append(temp + ",");
+		
+		// StartTime
+		temp = iterator.next();
+		logger.trace("StartTime: " + temp);
+		bw.append(temp);
+		
+		while (iterator.hasNext()) {
+			temp = iterator.next();
+			logger.trace("Resource: " + temp);
 			
-			switch (content.toUpperCase().charAt(0)) {
-				case 'U': case 'L':
-					bw.append(content + ",");  // ProgramID
-					cell = (XSSFCell)cellIterator.next();
-					logger.trace("(UserProgram) ExecutionTime cell raw value: " + cell.getRawValue());
-					bw.append(cell.getStringCellValue() + ",");  // ExecutionTime
+			switch (temp.toUpperCase().charAt(0)) {
+				case 'U':
+					// ProgramID (User)
+					bw.append("," + temp);
+					
+					// (UserProgram) ExecutionTime
+					temp = iterator.next();
+					logger.trace("(UserProgram) ExecutionTime: " + temp);
+					bw.append("," + temp);
+					break;
+				case 'L':
+					// ProgramID (Library)
+					bw.append("," + temp);
+					
+					// (LibraryProgram) ExecutionTime
+					temp = iterator.next();
+					logger.trace("(LibraryProgram) ExecutionTime: " + temp);
+					bw.append("," + temp);
 					break;
 				case 'F':
-					bw.append(content + ",");  // FileID
-					cell = (XSSFCell)cellIterator.next();
-					logger.trace("(File) Action cell raw value: " + cell.getRawValue());
-					bw.append(cell.getStringCellValue() + ",");  // Action
+					// FileID
+					bw.append("," + temp);
+					
+					// (File) Action
+					temp = iterator.next();
+					logger.trace("(File) Action: " + temp);
+					bw.append("," + temp);
 					break;
 				case 'P':
-					bw.append(content + ",");  // PrinterID
-					cell = (XSSFCell)cellIterator.next();
-					logger.trace("(Printer) Pages cell raw value: " + cell.getRawValue());
-					bw.append(cell.getStringCellValue() + "\n");  // Pages
+					// PrinterID
+					bw.append("," + temp);
+					
+					// (Printer) Pages
+					temp = iterator.next();
+					logger.trace("(Printer) Pages: " + temp);
+					bw.append("," + temp);
 					break;
 				default:
-					logger.fatal("Resource expected in cell - no resource found/");
+					logger.fatal("Resource expected in cell - no resource found");
 					break;
 			}
 		}
+		
+		bw.append("\n");
 		
 		logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}

@@ -3,12 +3,11 @@ package com.jasel.classes.cs795dm.project;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class LoginPatternBuilder {
 	private static Logger logger = LogManager.getLogger(LoginPatternBuilder.class);
@@ -41,38 +40,59 @@ public class LoginPatternBuilder {
 	
 	
 	
-	public void addDataInstance(Iterator<Cell> cellIterator) throws IOException {
-		XSSFCell cell = null;
+	public void addDataInstance(String instance) throws IOException {
 		String temp = "";
+		String eventDate = "";
+		List<String> attributes = Arrays.asList(instance.split(","));
 		
-		bw.append("1,");  // RecordType
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("UserID cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // UserID
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("HostMachineID cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("EventDate cell raw value: " + cell.getRawValue());
-		temp = cell.getStringCellValue();
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("LoginTime cell raw value: " + cell.getRawValue());
-		bw.append(temp + cell.getStringCellValue() + ",");  // Login Date/Time
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("LogoutTime cell raw value: " + cell.getRawValue());
-		bw.append(temp + cell.getStringCellValue() + ",");  // Logout Date/Time
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("AvgUserProcess cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // AvgUserProcess
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("MaxUserProcess cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // MaxUserProcess
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("CharsTyped cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // CharsTyped
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("CPUTime cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + "\n");  // CPUTime
+		// RecordType
+		temp = attributes.get(0);
+		logger.trace("RecordType: " + temp);
+		bw.append(temp + ",");
+		
+		// UserID
+		temp = attributes.get(1);
+		logger.trace("UserID: " + temp);
+		bw.append(temp + ",");
+		
+		// HostMachineID
+		temp = attributes.get(2);
+		logger.trace("HostMachineID: " + temp);
+		bw.append(temp + ",");
+		
+		// Event Date
+		eventDate = attributes.get(3);
+		logger.trace("Event Date: " + eventDate);
+		
+		// Login Date/Time
+		temp = attributes.get(4);
+		logger.trace("Login Time: " + temp);
+		bw.append(eventDate + temp + ",");
+		
+		// Logout Date/Time
+		temp = attributes.get(5);
+		logger.trace("Logout Time: " + temp);
+		bw.append(eventDate + temp + ",");
+		
+		// AvgUserProcess
+		temp = attributes.get(6);
+		logger.trace("AvgUserProcess: " + temp);
+		bw.append(temp + ",");
+		
+		// MaxUserProcess
+		temp = attributes.get(7);
+		logger.trace("MaxUserProcess: " + temp);
+		bw.append(temp + ",");
+		
+		// CharsTyped
+		temp = attributes.get(8);
+		logger.trace("CharsTyped: " + temp);
+		bw.append(temp + ",");
+		
+		// CPUTime
+		temp = attributes.get(9);
+		logger.trace("CPUTime: " + temp);
+		bw.append(temp + "\n");
 		
 		logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}

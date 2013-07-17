@@ -3,12 +3,11 @@ package com.jasel.classes.cs795dm.project;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 
 public class EmailPatternBuilder {
 	static Logger logger = LogManager.getLogger(EmailPatternBuilder.class);
@@ -41,37 +40,59 @@ public class EmailPatternBuilder {
 	
 	
 	
-	public void addDataInstance(Iterator<Cell> cellIterator) throws IOException {
-		XSSFCell cell = null;
+	public void addDataInstance(String instance) throws IOException {
+		String temp = "";
+		List<String> attributes = Arrays.asList(instance.split(","));
 		
-		bw.append("1,");  // RecordType
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("UserID cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // UserID
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("HostMachineID cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // HostMachineID
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("StartDate cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue());  // Start Date
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("StartTime cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // Start Time
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("EmailProgramID cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // EmailProgramID
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("Address cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // Address
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("Action cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // Action
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("Bytes cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + ",");  // Bytes
-		cell = (XSSFCell)cellIterator.next();
-		logger.trace("Attachments cell raw value: " + cell.getRawValue());
-		bw.append(cell.getStringCellValue() + "\n");  // Attachments
+		// RecordType
+		temp = attributes.get(0);
+		logger.trace("RecordType: " + temp);
+		bw.append(temp + ",");
+		
+		// UserID
+		temp = attributes.get(1);
+		logger.trace("UserID: " + temp);
+		bw.append(temp + ",");
+		
+		// HostMachineID
+		temp = attributes.get(2);
+		logger.trace("HostMachineID: " + temp);
+		bw.append(temp + ",");
+		
+		// StartDate
+		temp = attributes.get(3);
+		logger.trace("StartDate: " + temp);
+		bw.append(temp + ",");
+		
+		// StartTime
+		temp = attributes.get(4);
+		logger.trace("StartTime: " + temp);
+		bw.append(temp + ",");
+		
+		// EmailProgramID
+		temp = attributes.get(5);
+		logger.trace("EmailProgramID: " + temp);
+		bw.append(temp + ",");
+		
+		// Address
+		temp = attributes.get(6);
+		logger.trace("Address: " + temp);
+		bw.append(temp + ",");
+		
+		// Action
+		temp = attributes.get(7);
+		logger.trace("Action: " + temp);
+		bw.append(temp + ",");
+		
+		// Bytes
+		temp = attributes.get(8);
+		logger.trace("Bytes: " + temp);
+		bw.append(temp + ",");
+		
+		// Attachments
+		temp = attributes.get(9);
+		logger.trace("Attachments: " + temp);
+		bw.append(temp + "\n");
 		
 		logger.info("Sent one Email Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
 	}

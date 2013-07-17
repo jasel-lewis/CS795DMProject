@@ -6,18 +6,9 @@ package com.jasel.classes.cs795dm.project;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Iterator;
-
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * @author jasel
@@ -53,6 +44,7 @@ public class ARFFConverter {
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(INPUT_FILENAME)));
 		
 		String line = "";
+		int lineCount = 1;
 		
 		generateValueRanges();
 		
@@ -66,7 +58,13 @@ public class ARFFConverter {
 				emailActionRange);
 		
 		while ((line = br.readLine()) != null) {
-			switch ((int)line.charAt(0)) {
+			logger.trace("** Line " + lineCount);
+			
+			// For some reason, Excel is appending a bunch of empty commas as the end of each line
+			// when converting to CSV.  Get rid of them.
+			line = line.trim().replaceAll(",*$", "");
+			
+			switch (Integer.parseInt(line.substring(0, 1))) {
 				case RecordType.LOGIN:
 					logger.info("Recognized a Login Pattern - sending to LoginPatternBuilder.");
 					loginBuilder.addDataInstance(line);
@@ -81,9 +79,15 @@ public class ARFFConverter {
 					break;
 				default:
 					logger.fatal("Instance did not have a valid RecordType");
+					br.close();
+					System.exit(1);
 					break;
 			}
+			
+			lineCount++;
 		}
+		
+		br.close();
 	}
 	
 	
