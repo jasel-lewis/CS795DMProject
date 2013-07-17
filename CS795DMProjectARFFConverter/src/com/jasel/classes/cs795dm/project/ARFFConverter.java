@@ -3,8 +3,11 @@
  */
 package com.jasel.classes.cs795dm.project;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Iterator;
 
 import org.apache.logging.log4j.Logger;
@@ -21,7 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  */
 public class ARFFConverter {
-	private final static String INPUT_FILENAME = "projectdata.xlsx";
+	private final static String INPUT_FILENAME = "projectdata.csv";
 	private final static String LOGIN_OUTPUT_FILENAME = "logindata.arff";
 	private final static String RESOURCE_OUTPUT_FILENAME = "resourcedata.arff";
 	private final static String EMAIL_OUTPUT_FILENAME = "emaildata.arff";
@@ -46,12 +49,10 @@ public class ARFFConverter {
 		LoginPatternBuilder loginBuilder = null;
 		ResourcePatternBuilder resourceBuilder = null;
 		EmailPatternBuilder emailBuilder = null;
-		XSSFWorkbook workbook = null;
-		XSSFSheet worksheet = null;
-		XSSFRow row = null;
-		Iterator<Row> rowIterator = null;
-		XSSFCell cell = null;
-		Iterator<Cell> cellIterator = null;
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(INPUT_FILENAME)));
+		
+		String line = "";
 		
 		generateValueRanges();
 		
@@ -64,33 +65,19 @@ public class ARFFConverter {
 				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbEmailProgramIDRange.toString(),
 				emailActionRange);
 		
-		// Create an internal POI XSSF Workbook from the Excel data file
-		workbook = new XSSFWorkbook(new FileInputStream(INPUT_FILENAME));
-		
-		worksheet = workbook.getSheetAt(0);
-		
-		rowIterator = worksheet.rowIterator();
-		
-		while (rowIterator.hasNext()) {
-			row = (XSSFRow)rowIterator.next();
-			cellIterator = row.cellIterator();
-			
-			cell = (XSSFCell)cellIterator.next();
-			logger.trace("RecordType cell raw value: " + cell.getRawValue());
-			logger.trace("RecordType cell type: " + cell.getCellType());
-			
-			switch ((int)cell.getNumericCellValue()) {
+		while ((line = br.readLine()) != null) {
+			switch ((int)line.charAt(0)) {
 				case RecordType.LOGIN:
 					logger.info("Recognized a Login Pattern - sending to LoginPatternBuilder.");
-					loginBuilder.addDataInstance(cellIterator);
+					loginBuilder.addDataInstance(line);
 					break;
 				case RecordType.RESOURCE:
 					logger.info("Recognized a Resource Pattern - sending to ResourcPatternBuilder.");
-					resourceBuilder.addDataInstance(cellIterator);
+					resourceBuilder.addDataInstance(line);
 					break;
 				case RecordType.EMAIL:
 					logger.info("Recognized an Email Pattern - sending to EmailPatternBuilder");
-					emailBuilder.addDataInstance(cellIterator);
+					emailBuilder.addDataInstance(line);
 					break;
 				default:
 					logger.fatal("Instance did not have a valid RecordType");
