@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -45,81 +44,71 @@ public class ResourcePatternBuilder {
 	public void addDataInstance(String instance) throws IOException {
 		String temp = "";
 		List<String> attributes = Arrays.asList(instance.split(","));
-		Iterator<String> iterator = attributes.iterator();
 		
 		logger.debug("Instance: " + instance);
 		logger.debug("Number of attributes: " + attributes.size());
 		
 		// InstanceType
-		temp = iterator.next();
+		temp = attributes.get(0);
 		logger.trace("InstanceType: " + temp);
 		bw.append(temp + ",");
 		
 		// UserID
-		temp = iterator.next();
+		temp = attributes.get(1);
 		logger.trace("UserID: " + temp);
 		bw.append(temp + ",");
 		
 		// HostMachineID
-		temp = iterator.next();
+		temp = attributes.get(2);
 		logger.trace("HostMachineID: " + temp);
 		bw.append(temp + ",");
 		
 		// StartDate
-		temp = iterator.next();
+		temp = attributes.get(3);
 		logger.trace("StartDate: " + temp);
 		bw.append(temp + ",");
 		
 		// StartTime
-		temp = iterator.next();
+		temp = attributes.get(4);
 		logger.trace("StartTime: " + temp);
+		bw.append(temp + ",");
+		
+		// ProgramID
+		temp = attributes.get(5);
+		logger.trace("ProgramID: " + temp);
+		bw.append(temp + ",");
+		
+		// ExecutionTime
+		temp = attributes.get(6);
+		logger.trace("ExecutionTime: " + convertToSeconds(temp));
 		bw.append(temp);
 		
-		while (iterator.hasNext()) {
-			temp = iterator.next();
-			logger.trace("Resource: " + temp);
+		try {
+			// FileID
+			temp = attributes.get(7);
+			logger.trace("FileID: " + temp);
+			bw.append(temp);
 			
-			switch (temp.toUpperCase().charAt(0)) {
-				case 'U':
-					// ProgramID (User)
-					bw.append("," + temp);
-					
-					// (UserProgram) ExecutionTime
-					temp = iterator.next();
-					logger.trace("(UserProgram) ExecutionTime: " + temp);
-					bw.append("," + convertToSeconds(temp));
-					break;
-				case 'L':
-					// ProgramID (Library)
-					bw.append("," + temp);
-					
-					// (LibraryProgram) ExecutionTime
-					temp = iterator.next();
-					logger.trace("(LibraryProgram) ExecutionTime: " + temp);
-					bw.append("," + convertToSeconds(temp));
-					break;
-				case 'F':
-					// FileID
-					bw.append("," + temp);
-					
-					// (File) Action
-					temp = iterator.next();
-					logger.trace("(File) Action: " + temp);
-					bw.append("," + temp);
-					break;
-				case 'P':
-					// PrinterID
-					bw.append("," + temp);
-					
-					// (Printer) Pages
-					temp = iterator.next();
-					logger.trace("(Printer) Pages: " + temp);
-					bw.append("," + temp);
-					break;
-				default:
-					logger.fatal("Resource expected in cell - no resource found");
-					break;
-			}
+			// Action
+			temp = attributes.get(8);
+			logger.trace("Action: " + temp);
+			bw.append(temp);
+		} catch (IndexOutOfBoundsException ioobe) {
+			bw.append(",,");
+		}
+		
+		try {
+			// PrinterID
+			temp = attributes.get(9);
+			logger.trace("PrinterID: " + temp);
+			bw.append(temp);
+			
+			// Pages
+			temp = attributes.get(10);
+			logger.trace("Pages: " + temp);
+			bw.append(temp);
+		} catch (IndexOutOfBoundsException ioobe) {
+			bw.append(",,");
 		}
 		
 		bw.append("\n");
