@@ -27,7 +27,7 @@ public class EmailPatternBuilder {
 		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
-		bw.append("@attribute StartDateTime date MMDDYYHHmmss\n");
+		bw.append("@attribute StartDateTime date YYMMDDHHmmss\n");
 		bw.append("@attribute EmailProgramID " + emailProgramIDRange + "\n");
 		bw.append("@attribute Address string\n");
 		bw.append("@attribute Action " + emailActionRange + "\n");
@@ -63,8 +63,8 @@ public class EmailPatternBuilder {
 		bw.append(temp + ",");
 		
 		// StartDate
-		temp = attributes.get(3);
-		logger.trace("StartDate: " + temp);
+		temp = convertDateFormat(attributes.get(3));
+		logger.trace("StartDate (flipped to YYMMDD): " + temp);
 		bw.append(temp + ",");
 		
 		// StartDateTime
@@ -109,5 +109,19 @@ public class EmailPatternBuilder {
 	public void commit() throws IOException {
 		bw.close();
 		logger.info("Closed the file \"" + filename + "\".");
+	}
+	
+	
+	
+	/**
+	 * The given data presents a date in the MMDDYY format.  We wish to utilize a decreasing
+	 * order of chronological granularity - specifically a YYMMDD format.  This method
+	 * expects a String representing a date in the MMDDYY format and returns the same but
+	 * formatted as YYMMDD.
+	 * @param date
+	 * @return
+	 */
+	private String convertDateFormat(String date) {
+		return (date.substring(4) + date.substring(0, 4));
 	}
 }

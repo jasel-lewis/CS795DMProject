@@ -27,8 +27,8 @@ public class LoginPatternBuilder {
 		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
-		bw.append("@attribute LoginDateTime date MMDDYYHHmmss\n");
-		bw.append("@attribute LogoutDateTime date MMDDYYHHmmss\n");
+		bw.append("@attribute LoginDateTime date YYMMDDHHmmss\n");
+		bw.append("@attribute LogoutDateTime date YYMMDDHHmmss\n");
 		bw.append("@attribute AvgUserProcesses numeric\n");
 		bw.append("@attribute MaxUserProcesses numeric\n");
 		bw.append("@attribute CharsTyped numeric\n");
@@ -64,8 +64,8 @@ public class LoginPatternBuilder {
 		bw.append(temp + ",");
 		
 		// EventDate
-		eventDate = attributes.get(3);
-		logger.trace("EventDate: " + eventDate);
+		eventDate = convertDateFormat(attributes.get(3));
+		logger.trace("EventDate (flipped to YYMMDD): " + eventDate);
 		
 		// LoginDateTime
 		temp = attributes.get(4);
@@ -109,5 +109,19 @@ public class LoginPatternBuilder {
 	public void commit() throws IOException {
 		bw.close();
 		logger.info("Closed the file \"" + filename + "\".");
+	}
+	
+	
+	
+	/**
+	 * The given data presents a date in the MMDDYY format.  We wish to utilize a decreasing
+	 * order of chronological granularity - specifically a YYMMDD format.  This method
+	 * expects a String representing a date in the MMDDYY format and returns the same but
+	 * formatted as YYMMDD.
+	 * @param date
+	 * @return
+	 */
+	private String convertDateFormat(String date) {
+		return (date.substring(4) + date.substring(0, 4));
 	}
 }
