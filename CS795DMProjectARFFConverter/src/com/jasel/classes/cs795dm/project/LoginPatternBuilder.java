@@ -63,9 +63,9 @@ public class LoginPatternBuilder {
 		logger.trace("HostMachineID: " + temp);
 		bw.append(temp + ",");
 		
-		// Event Date
+		// EventDate
 		eventDate = attributes.get(3);
-		logger.trace("Event Date: " + eventDate);
+		logger.trace("EventDate: " + eventDate);
 		
 		// Login Date/Time
 		temp = attributes.get(4);
