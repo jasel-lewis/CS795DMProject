@@ -7,6 +7,9 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Class to support a login InstanceType
+ */
 public class LoginARFFBuilder extends ARFFBuilder {
 	private static Logger logger = LogManager.getLogger(LoginARFFBuilder.class);
 	

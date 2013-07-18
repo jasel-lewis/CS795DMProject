@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.jasel.classes.cs795dm.project;
 
 import java.io.BufferedReader;
@@ -11,7 +8,9 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 /**
- * @author jasel
+ * This class performs preprocessing and data massaging for the data provided to us
+ * for our CS795 Data Mining final project.  Input to main() should be a CSV dump
+ * of the provided Excel worksheet of instances.
  *
  */
 public class DataPreprocessor {
@@ -93,6 +92,10 @@ public class DataPreprocessor {
 	
 	
 	
+	/**
+	 * Create ranges for the attributes that have them as specified by the specifications
+	 * for the project (projspecs.pdf)
+	 */
 	private static void generateValueRanges() {
 		// Generate InstanceType value range
 		for (int i = 2; i <= 3; i++) {

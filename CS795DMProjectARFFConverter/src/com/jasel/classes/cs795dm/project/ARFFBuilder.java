@@ -6,6 +6,10 @@ import java.io.IOException;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+/**
+ * Class of common methods and variables from which to extend the other
+ * ARFF builder classes
+ */
 public abstract class ARFFBuilder {
 	protected static Logger logger = LogManager.getLogger(ARFFBuilder.class);
 	
@@ -35,6 +39,10 @@ public abstract class ARFFBuilder {
 	
 	
 	
+	/**
+	 * Write the "header" (the common, top portion) of the ARFF header
+	 * @throws IOException
+	 */
 	private void writeARFFHeaderHeader() throws IOException {
 		bw.append("@relation logindata\n\n");
 		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
@@ -44,20 +52,38 @@ public abstract class ARFFBuilder {
 	
 	
 	
+	/**
+	 * Write the non-common middle portion of the ARFF header
+	 * @throws IOException
+	 */
 	protected abstract void writeARFFHeaderCustom() throws IOException;
 	
 	
 	
+	/**
+	 * Write the "footer" (common, bottom portion) of the ARFF header
+	 * @throws IOException
+	 */
 	private void writeARFFHeaderFooter() throws IOException {
 		bw.append("\n@data\n");
 	}
 	
 	
 	
+	/**
+	 * Perform InstanceType-specific functionality and output to the appropriate
+	 * ARFF file
+	 * @param instance
+	 * @throws IOException
+	 */
 	protected abstract void addDataInstance(String instance) throws IOException;
 	
 	
 	
+	/**
+	 * Conclude output to the ARFF file
+	 * @throws IOException
+	 */
 	protected void commit() throws IOException {
 		bw.close();
 		logger.info("Closed the file \"" + filename + "\".");
@@ -66,7 +92,7 @@ public abstract class ARFFBuilder {
 	
 	
 	/**
-	 * The given data presents a date in the MMDDYY format.  We wish to utilize a decreasing
+	 * The provided data presents a date in the MMDDYY format.  We wish to utilize a decreasing
 	 * order of chronological granularity - specifically a YYMMDD format.  This method
 	 * expects a String representing a date in the MMDDYY format and returns the same but
 	 * formatted as YYMMDD.

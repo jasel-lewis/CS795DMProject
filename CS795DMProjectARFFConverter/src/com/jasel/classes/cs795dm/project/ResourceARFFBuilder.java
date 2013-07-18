@@ -7,6 +7,9 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Class to support a resource InstanceType
+ */
 public class ResourceARFFBuilder extends ARFFBuilder {
 	static Logger logger = LogManager.getLogger(ResourceARFFBuilder.class);
 	
