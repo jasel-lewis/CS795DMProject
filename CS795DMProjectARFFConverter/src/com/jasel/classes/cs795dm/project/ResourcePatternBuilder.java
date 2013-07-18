@@ -27,7 +27,7 @@ public class ResourcePatternBuilder {
 		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
-		bw.append("@attribute StartDate/Time date MMDDYYHHmmss\n");
+		bw.append("@attribute StartDateTime date MMDDYYHHmmss\n");
 		bw.append("@attribute ProgramID " + programIDRange + "\n");
 		bw.append("@attribute ExecutionTime numeric\n");
 		bw.append("@attribute FileID " + fileIDRange + "\n");
@@ -68,7 +68,7 @@ public class ResourcePatternBuilder {
 		logger.trace("StartDate: " + temp);
 		bw.append(temp + ",");
 		
-		// StartTime
+		// StartDateTime
 		temp = attributes.get(4);
 		logger.trace("StartTime: " + temp);
 		bw.append(temp + ",");

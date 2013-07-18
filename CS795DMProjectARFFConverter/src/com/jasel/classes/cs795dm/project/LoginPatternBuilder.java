@@ -27,8 +27,8 @@ public class LoginPatternBuilder {
 		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
-		bw.append("@attribute LoginDate/Time date MMDDYYHHmmss\n");
-		bw.append("@attribute LogoutDate/Time date MMDDYYHHmmss\n");
+		bw.append("@attribute LoginDateTime date MMDDYYHHmmss\n");
+		bw.append("@attribute LogoutDateTime date MMDDYYHHmmss\n");
 		bw.append("@attribute AvgUserProcesses numeric\n");
 		bw.append("@attribute MaxUserProcesses numeric\n");
 		bw.append("@attribute CharsTyped numeric\n");
@@ -67,12 +67,12 @@ public class LoginPatternBuilder {
 		eventDate = attributes.get(3);
 		logger.trace("EventDate: " + eventDate);
 		
-		// Login Date/Time
+		// LoginDateTime
 		temp = attributes.get(4);
 		logger.trace("Login Time: " + temp);
 		bw.append(eventDate + temp + ",");
 		
-		// Logout Date/Time
+		// LogoutDateTime
 		temp = attributes.get(5);
 		logger.trace("Logout Time: " + temp);
 		bw.append(eventDate + temp + ",");

@@ -27,7 +27,7 @@ public class EmailPatternBuilder {
 		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
-		bw.append("@attribute StartDate/Time date MMDDYYHHmmss\n");
+		bw.append("@attribute StartDateTime date MMDDYYHHmmss\n");
 		bw.append("@attribute EmailProgramID " + emailProgramIDRange + "\n");
 		bw.append("@attribute Address string\n");
 		bw.append("@attribute Action " + emailActionRange + "\n");
@@ -67,7 +67,7 @@ public class EmailPatternBuilder {
 		logger.trace("StartDate: " + temp);
 		bw.append(temp + ",");
 		
-		// StartTime
+		// StartDateTime
 		temp = attributes.get(4);
 		logger.trace("StartTime: " + temp);
 		bw.append(temp + ",");
