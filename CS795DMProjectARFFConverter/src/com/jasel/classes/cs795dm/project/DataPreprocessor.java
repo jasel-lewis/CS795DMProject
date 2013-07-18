@@ -14,13 +14,13 @@ import org.apache.logging.log4j.LogManager;
  * @author jasel
  *
  */
-public class ARFFConverter {
+public class DataPreprocessor {
 	private final static String INPUT_FILENAME = "projectdata.csv";
 	private final static String LOGIN_OUTPUT_FILENAME = "logindata.arff";
 	private final static String RESOURCE_OUTPUT_FILENAME = "resourcedata.arff";
 	private final static String EMAIL_OUTPUT_FILENAME = "emaildata.arff";
 	
-	private static Logger logger = LogManager.getLogger(ARFFConverter.class);
+	private static Logger logger = LogManager.getLogger(DataPreprocessor.class);
 	
 	private static StringBuilder sbInstanceTypeRange = new StringBuilder("{1");
 	private static StringBuilder sbUserIDRange = new StringBuilder("{U01");
