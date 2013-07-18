@@ -87,7 +87,7 @@ public class ResourcePatternBuilder {
 					// (UserProgram) ExecutionTime
 					temp = iterator.next();
 					logger.trace("(UserProgram) ExecutionTime: " + temp);
-					bw.append("," + temp);
+					bw.append("," + convertToSeconds(temp));
 					break;
 				case 'L':
 					// ProgramID (Library)
@@ -96,7 +96,7 @@ public class ResourcePatternBuilder {
 					// (LibraryProgram) ExecutionTime
 					temp = iterator.next();
 					logger.trace("(LibraryProgram) ExecutionTime: " + temp);
-					bw.append("," + temp);
+					bw.append("," + convertToSeconds(temp));
 					break;
 				case 'F':
 					// FileID
@@ -136,5 +136,21 @@ public class ResourcePatternBuilder {
 	public void commit() throws IOException {
 		bw.close();
 		logger.info("Closed the file \"" + filename + "\".");
+	}
+	
+	
+	
+	/**
+	 * Expects a string representing elapsed time in the format HHmmss and
+	 * converts to total seconds
+	 * @param time
+	 * @return
+	 */
+	private int convertToSeconds(String time) {
+		int hours = Integer.parseInt(time.substring(0, 2));
+		int minutes = Integer.parseInt(time.substring(2, 4));
+		int seconds = Integer.parseInt(time.substring(4));
+		
+		return((hours * 360) + (minutes * 60) + seconds);
 	}
 }
