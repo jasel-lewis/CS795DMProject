@@ -15,7 +15,7 @@ public class EmailPatternBuilder {
 	private BufferedWriter bw = null;
 	private String filename = null;
 	
-	public EmailPatternBuilder(String filename, String recordTypeRange, String userIDRange, String hostMachineIDRange,
+	public EmailPatternBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange,
 			String emailProgramIDRange, String emailActionRange) throws IOException {
 		this.filename = filename;
 		
@@ -24,7 +24,7 @@ public class EmailPatternBuilder {
 		logger.info("Opened the file \"" + filename + "\" for writing.");
 		
 		bw.append("@relation emaildata\n\n");
-		bw.append("@attribute RecordType " + recordTypeRange + "\n");
+		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
 		bw.append("@attribute StartDate/Time date MMDDYYHHmmss\n");
@@ -44,9 +44,12 @@ public class EmailPatternBuilder {
 		String temp = "";
 		List<String> attributes = Arrays.asList(instance.split(","));
 		
-		// RecordType
+		logger.debug("Instance: " + instance);
+		logger.debug("Number of attributes: " + attributes.size());
+		
+		// InstanceType
 		temp = attributes.get(0);
-		logger.trace("RecordType: " + temp);
+		logger.trace("InstanceType: " + temp);
 		bw.append(temp + ",");
 		
 		// UserID

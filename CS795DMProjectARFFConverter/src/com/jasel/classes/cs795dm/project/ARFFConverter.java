@@ -22,7 +22,7 @@ public class ARFFConverter {
 	
 	private static Logger logger = LogManager.getLogger(ARFFConverter.class);
 	
-	private static StringBuilder sbRecordTypeRange = new StringBuilder("{1");
+	private static StringBuilder sbInstanceTypeRange = new StringBuilder("{1");
 	private static StringBuilder sbUserIDRange = new StringBuilder("{U01");
 	private static StringBuilder sbProgramIDRange = new StringBuilder("{UP001");
 	private static StringBuilder sbFileIDRange = new StringBuilder("{F0001");
@@ -51,12 +51,12 @@ public class ARFFConverter {
 		
 		generateValueRanges();
 		
-		loginBuilder = new LoginPatternBuilder(LOGIN_OUTPUT_FILENAME, sbRecordTypeRange.toString(),
+		loginBuilder = new LoginPatternBuilder(LOGIN_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
 				sbUserIDRange.toString(), sbHostMachineIDRange.toString());
-		resourceBuilder = new ResourcePatternBuilder(RESOURCE_OUTPUT_FILENAME, sbRecordTypeRange.toString(),
+		resourceBuilder = new ResourcePatternBuilder(RESOURCE_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
 				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbProgramIDRange.toString(),
 				sbFileIDRange.toString(), resourceActionRange, sbPrinterIDRange.toString());
-		emailBuilder = new EmailPatternBuilder(EMAIL_OUTPUT_FILENAME, sbRecordTypeRange.toString(),
+		emailBuilder = new EmailPatternBuilder(EMAIL_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
 				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbEmailProgramIDRange.toString(),
 				emailActionRange);
 		
@@ -68,20 +68,20 @@ public class ARFFConverter {
 			line = line.trim().replaceAll(",*$", "");
 			
 			switch (Integer.parseInt(line.substring(0, 1))) {
-				case RecordType.LOGIN:
+				case InstanceType.LOGIN:
 					logger.info("Recognized a Login Pattern (# " + loginPatternCount++ + ") - sending to LoginPatternBuilder.");
 					loginBuilder.addDataInstance(line);
 					break;
-				case RecordType.RESOURCE:
+				case InstanceType.RESOURCE:
 					logger.info("Recognized a Resource Pattern (# " + resourcePatternCount++ + ") - sending to ResourcPatternBuilder.");
 					resourceBuilder.addDataInstance(line);
 					break;
-				case RecordType.EMAIL:
+				case InstanceType.EMAIL:
 					logger.info("Recognized an Email Pattern (# " + emailPatternCount++ + ") - sending to EmailPatternBuilder");
 					emailBuilder.addDataInstance(line);
 					break;
 				default:
-					logger.fatal("Instance did not have a valid RecordType");
+					logger.fatal("Instance did not have a valid InstanceType");
 					br.close();
 					System.exit(1);
 					break;
@@ -94,12 +94,12 @@ public class ARFFConverter {
 	
 	
 	private static void generateValueRanges() {
-		// Generate RecordType value range
+		// Generate InstanceType value range
 		for (int i = 2; i <= 3; i++) {
-			sbRecordTypeRange.append("," + i);
+			sbInstanceTypeRange.append("," + i);
 		}
 		
-		sbRecordTypeRange.append("}");
+		sbInstanceTypeRange.append("}");
 		
 		// Generate UserID value range
 		for (int i = 2; i < 10; i++) {

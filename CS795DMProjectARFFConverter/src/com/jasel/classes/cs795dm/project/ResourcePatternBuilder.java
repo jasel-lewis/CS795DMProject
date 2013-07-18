@@ -16,7 +16,7 @@ public class ResourcePatternBuilder {
 	private BufferedWriter bw = null;
 	private String filename = null;
 	
-	public ResourcePatternBuilder(String filename, String recordTypeRange, String userIDRange, String hostMachineIDRange,
+	public ResourcePatternBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange,
 			String programIDRange, String fileIDRange, String resourceActionRange, String printerIDRange) throws IOException {
 		this.filename = filename;
 		
@@ -25,7 +25,7 @@ public class ResourcePatternBuilder {
 		logger.info("Opened the file \"" + filename + "\" for writing.");
 		
 		bw.append("@relation resourcedata\n\n");
-		bw.append("@attribute RecordType " + recordTypeRange + "\n");
+		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
 		bw.append("@attribute StartDate/Time date MMDDYYHHmmss\n");
@@ -50,9 +50,9 @@ public class ResourcePatternBuilder {
 		logger.debug("Instance: " + instance);
 		logger.debug("Number of attributes: " + attributes.size());
 		
-		// RecordType
+		// InstanceType
 		temp = iterator.next();
-		logger.trace("RecordType: " + temp);
+		logger.trace("InstanceType: " + temp);
 		bw.append(temp + ",");
 		
 		// UserID
