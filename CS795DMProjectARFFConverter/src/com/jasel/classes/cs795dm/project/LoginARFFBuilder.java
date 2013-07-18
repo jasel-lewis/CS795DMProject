@@ -9,13 +9,13 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class LoginPatternBuilder {
-	private static Logger logger = LogManager.getLogger(LoginPatternBuilder.class);
+public class LoginARFFBuilder {
+	private static Logger logger = LogManager.getLogger(LoginARFFBuilder.class);
 	
 	private BufferedWriter bw = null;
 	private String filename = null;
 	
-	public LoginPatternBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange)
+	public LoginARFFBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange)
 			throws IOException {
 		this.filename = filename;
 		

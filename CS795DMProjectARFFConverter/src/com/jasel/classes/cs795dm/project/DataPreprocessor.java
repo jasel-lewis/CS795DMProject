@@ -37,9 +37,9 @@ public class DataPreprocessor {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-		LoginPatternBuilder loginBuilder = null;
-		ResourcePatternBuilder resourceBuilder = null;
-		EmailPatternBuilder emailBuilder = null;
+		LoginARFFBuilder loginBuilder = null;
+		ResourceARFFBuilder resourceBuilder = null;
+		EmailARFFBuilder emailBuilder = null;
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(INPUT_FILENAME)));
 		
@@ -51,12 +51,12 @@ public class DataPreprocessor {
 		
 		generateValueRanges();
 		
-		loginBuilder = new LoginPatternBuilder(LOGIN_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
+		loginBuilder = new LoginARFFBuilder(LOGIN_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
 				sbUserIDRange.toString(), sbHostMachineIDRange.toString());
-		resourceBuilder = new ResourcePatternBuilder(RESOURCE_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
+		resourceBuilder = new ResourceARFFBuilder(RESOURCE_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
 				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbProgramIDRange.toString(),
 				sbFileIDRange.toString(), resourceActionRange, sbPrinterIDRange.toString());
-		emailBuilder = new EmailPatternBuilder(EMAIL_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
+		emailBuilder = new EmailARFFBuilder(EMAIL_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
 				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbEmailProgramIDRange.toString(),
 				emailActionRange);
 		
