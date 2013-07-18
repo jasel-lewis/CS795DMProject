@@ -1,7 +1,5 @@
 package com.jasel.classes.cs795dm.project;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -9,37 +7,29 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-public class LoginARFFBuilder {
+public class LoginARFFBuilder extends ARFFBuilder {
 	private static Logger logger = LogManager.getLogger(LoginARFFBuilder.class);
-	
-	private BufferedWriter bw = null;
-	private String filename = null;
 	
 	public LoginARFFBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange)
 			throws IOException {
-		this.filename = filename;
-		
-		bw = new BufferedWriter(new FileWriter(filename));
-		
-		logger.info("Opened the file \"" + filename + "\" for writing.");
-		
-		bw.append("@relation logindata\n\n");
-		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
-		bw.append("@attribute UserID " + userIDRange + "\n");
-		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
+		super(filename, instanceTypeRange, userIDRange, hostMachineIDRange);
+	}
+	
+	
+	
+	@Override
+	protected void writeARFFHeaderCustom() throws IOException {
 		bw.append("@attribute LoginDateTime date YYMMDDHHmmss\n");
 		bw.append("@attribute LogoutDateTime date YYMMDDHHmmss\n");
 		bw.append("@attribute AvgUserProcesses numeric\n");
 		bw.append("@attribute MaxUserProcesses numeric\n");
 		bw.append("@attribute CharsTyped numeric\n");
-		bw.append("@attribute CPUTime numeric\n\n");
-		bw.append("@data\n");
-		
-		logger.info("Wrote ARFF header information to \"" + filename + "\"");
+		bw.append("@attribute CPUTime numeric\n");
 	}
 	
 	
 	
+	@Override
 	public void addDataInstance(String instance) throws IOException {
 		String temp = "";
 		String eventDate = "";
@@ -102,26 +92,5 @@ public class LoginARFFBuilder {
 		bw.flush();
 		
 		logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
-	}
-	
-	
-	
-	public void commit() throws IOException {
-		bw.close();
-		logger.info("Closed the file \"" + filename + "\".");
-	}
-	
-	
-	
-	/**
-	 * The given data presents a date in the MMDDYY format.  We wish to utilize a decreasing
-	 * order of chronological granularity - specifically a YYMMDD format.  This method
-	 * expects a String representing a date in the MMDDYY format and returns the same but
-	 * formatted as YYMMDD.
-	 * @param date
-	 * @return
-	 */
-	private String convertDateFormat(String date) {
-		return (date.substring(4) + date.substring(0, 4));
 	}
 }

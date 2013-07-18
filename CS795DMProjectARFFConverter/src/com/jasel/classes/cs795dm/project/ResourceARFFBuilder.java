@@ -1,7 +1,5 @@
 package com.jasel.classes.cs795dm.project;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -9,38 +7,40 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ResourceARFFBuilder {
+public class ResourceARFFBuilder extends ARFFBuilder {
 	static Logger logger = LogManager.getLogger(ResourceARFFBuilder.class);
 	
-	private BufferedWriter bw = null;
-	private String filename = null;
+	private String programIDRange = null;
+	private String fileIDRange = null;
+	private String resourceActionRange = null;
+	private String printerIDRange = null;
 	
 	public ResourceARFFBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange,
 			String programIDRange, String fileIDRange, String resourceActionRange, String printerIDRange) throws IOException {
-		this.filename = filename;
+		super(filename, instanceTypeRange, userIDRange, hostMachineIDRange);
 		
-		bw = new BufferedWriter(new FileWriter(filename));
-		
-		logger.info("Opened the file \"" + filename + "\" for writing.");
-		
-		bw.append("@relation resourcedata\n\n");
-		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
-		bw.append("@attribute UserID " + userIDRange + "\n");
-		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
+		this.programIDRange = programIDRange;
+		this.fileIDRange = fileIDRange;
+		this.resourceActionRange = resourceActionRange;
+		this.printerIDRange = printerIDRange;
+	}
+	
+	
+	
+	@Override
+	protected void writeARFFHeaderCustom() throws IOException {
 		bw.append("@attribute StartDateTime date YYMMDDHHmmss\n");
 		bw.append("@attribute ProgramID " + programIDRange + "\n");
 		bw.append("@attribute ExecutionTime numeric\n");
 		bw.append("@attribute FileID " + fileIDRange + "\n");
 		bw.append("@attribute Action " + resourceActionRange + "\n");
 		bw.append("@attribute PrinterID " + printerIDRange + "\n");
-		bw.append("@attribute Pages numeric\n\n");
-		bw.append("@data\n");
-		
-		logger.info("Wrote ARFF header information to \"" + filename + "\"");
+		bw.append("@attribute Pages numeric\n");
 	}
 	
 	
 	
+	@Override
 	public void addDataInstance(String instance) throws IOException {
 		String temp = "";
 		List<String> attributes = Arrays.asList(instance.split(","));
@@ -122,13 +122,6 @@ public class ResourceARFFBuilder {
 	
 	
 	
-	public void commit() throws IOException {
-		bw.close();
-		logger.info("Closed the file \"" + filename + "\".");
-	}
-	
-	
-	
 	/**
 	 * Expects a string representing elapsed time in the format HHmmss and
 	 * converts to total seconds
@@ -141,19 +134,5 @@ public class ResourceARFFBuilder {
 		int seconds = Integer.parseInt(time.substring(4));
 		
 		return((hours * 360) + (minutes * 60) + seconds);
-	}
-	
-	
-	
-	/**
-	 * The given data presents a date in the MMDDYY format.  We wish to utilize a decreasing
-	 * order of chronological granularity - specifically a YYMMDD format.  This method
-	 * expects a String representing a date in the MMDDYY format and returns the same but
-	 * formatted as YYMMDD.
-	 * @param date
-	 * @return
-	 */
-	private String convertDateFormat(String date) {
-		return (date.substring(4) + date.substring(0, 4));
 	}
 }
