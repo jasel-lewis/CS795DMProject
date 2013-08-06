@@ -92,10 +92,10 @@ public abstract class ARFFBuilder {
 	
 	
 	/**
-	 * The provided data presents a date in the MMDDYY format.  We wish to utilize a decreasing
-	 * order of chronological granularity - specifically a YYMMDD format.  This method
-	 * expects a String representing a date in the MMDDYY format and returns the same but
-	 * formatted as YYMMDD.
+	 * The provided data presents a date in the MMddyy format.  We wish to utilize a decreasing
+	 * order of chronological granularity - specifically a yyMMdd format.  This method
+	 * expects a String representing a date in the MMddyy format and returns the same but
+	 * formatted as yyMMdd.
 	 * @param date
 	 * @return
 	 */

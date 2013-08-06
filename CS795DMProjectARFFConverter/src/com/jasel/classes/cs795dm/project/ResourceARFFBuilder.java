@@ -32,7 +32,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 	
 	@Override
 	protected void writeARFFHeaderCustom() throws IOException {
-		bw.append("@attribute StartDateTime date YYMMDDHHmmss\n");
+		bw.append("@attribute StartDateTime date yyMMddHHmmss\n");
 		bw.append("@attribute ProgramID " + programIDRange + "\n");
 		bw.append("@attribute ExecutionTime numeric\n");
 		bw.append("@attribute FileID " + fileIDRange + "\n");
@@ -68,7 +68,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		
 		// StartDate
 		temp = convertDateFormat(attributes.get(3));
-		logger.trace("StartDate (flipped to YYMMDD): " + temp);
+		logger.trace("StartDate (flipped to yyMMdd): " + temp);
 		bw.append(temp + ",");
 		
 		// StartDateTime

@@ -28,7 +28,7 @@ public class EmailARFFBuilder extends ARFFBuilder {
 	
 	@Override
 	protected void writeARFFHeaderCustom() throws IOException {
-		bw.append("@attribute StartDateTime date YYMMDDHHmmss\n");
+		bw.append("@attribute StartDateTime date yyMMddHHmmss\n");
 		bw.append("@attribute EmailProgramID " + emailProgramIDRange + "\n");
 		bw.append("@attribute Address string\n");
 		bw.append("@attribute Action " + emailActionRange + "\n");
@@ -63,7 +63,7 @@ public class EmailARFFBuilder extends ARFFBuilder {
 		
 		// StartDate
 		temp = convertDateFormat(attributes.get(3));
-		logger.trace("StartDate (flipped to YYMMDD): " + temp);
+		logger.trace("StartDate (flipped to yyMMdd): " + temp);
 		bw.append(temp + ",");
 		
 		// StartDateTime
