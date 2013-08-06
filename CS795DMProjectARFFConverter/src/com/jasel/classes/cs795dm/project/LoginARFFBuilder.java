@@ -22,8 +22,9 @@ public class LoginARFFBuilder extends ARFFBuilder {
 	
 	@Override
 	protected void writeARFFHeaderCustom() throws IOException {
-		bw.append("@attribute LoginDateTime date yyMMddHHmmss\n");
-		bw.append("@attribute LogoutDateTime date yyMMddHHmmss\n");
+		bw.append("@attribute EventDate date yyMMdd\n");
+		bw.append("@attribute LoginTime date HHmmss\n");
+		bw.append("@attribute LogoutTime date HHmmss\n");
 		bw.append("@attribute AvgUserProcesses numeric\n");
 		bw.append("@attribute MaxUserProcesses numeric\n");
 		bw.append("@attribute CharsTyped numeric\n");
@@ -59,16 +60,17 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		// EventDate
 		eventDate = convertDateFormat(attributes.get(3));
 		logger.trace("EventDate (flipped to yyMMdd): " + eventDate);
+		bw.append(eventDate + ",");
 		
 		// LoginDateTime
 		temp = attributes.get(4);
 		logger.trace("Login Time: " + temp);
-		bw.append(eventDate + temp + ",");
+		bw.append(temp + ",");
 		
 		// LogoutDateTime
 		temp = attributes.get(5);
 		logger.trace("Logout Time: " + temp);
-		bw.append(eventDate + temp + ",");
+		bw.append(temp + ",");
 		
 		// AvgUserProcess
 		temp = attributes.get(6);

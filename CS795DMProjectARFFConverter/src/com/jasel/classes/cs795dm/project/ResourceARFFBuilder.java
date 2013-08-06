@@ -32,7 +32,8 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 	
 	@Override
 	protected void writeARFFHeaderCustom() throws IOException {
-		bw.append("@attribute StartDateTime date yyMMddHHmmss\n");
+		bw.append("@attribute EventDate date yyMMdd\n");
+		bw.append("@attribute StartTime date HHmmss\n");
 		bw.append("@attribute ProgramID " + programIDRange + "\n");
 		bw.append("@attribute ExecutionTime numeric\n");
 		bw.append("@attribute FileID " + fileIDRange + "\n");
@@ -66,12 +67,12 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		logger.trace("HostMachineID: " + temp);
 		bw.append(temp + ",");
 		
-		// StartDate
+		// EventDate
 		temp = convertDateFormat(attributes.get(3));
-		logger.trace("StartDate (flipped to yyMMdd): " + temp);
+		logger.trace("EventDate (flipped to yyMMdd): " + temp);
 		bw.append(temp + ",");
 		
-		// StartDateTime
+		// StartTime
 		temp = attributes.get(4);
 		logger.trace("StartTime: " + temp);
 		bw.append(temp + ",");
