@@ -72,7 +72,7 @@ public class DataPreprocessor {
 					loginBuilder.addDataInstance(line);
 					break;
 				case InstanceType.RESOURCE:
-					logger.info("Recognized a Resource Pattern (# " + resourcePatternCount++ + ") - sending to ResourcPatternBuilder.");
+					logger.info("Recognized a Resource Pattern (# " + resourcePatternCount++ + ") - sending to ResourcePatternBuilder.");
 					resourceBuilder.addDataInstance(line);
 					break;
 				case InstanceType.EMAIL:
