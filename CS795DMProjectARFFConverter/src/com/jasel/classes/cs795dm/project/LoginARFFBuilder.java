@@ -25,8 +25,8 @@ public class LoginARFFBuilder extends ARFFBuilder {
 	protected void writeARFFHeaderCustom() throws IOException {
 		bw.append("@attribute EventDate date yyMMdd\n");
 		bw.append("@attribute EventDay {mon,tue,wed,thu,fri,sat,sun}\n");
-		bw.append("@attribute LoginTime date HHmmss\n");
-		bw.append("@attribute LogoutTime date HHmmss\n");
+		bw.append("@attribute LoginTime date yyMMddHHmmss\n");
+		bw.append("@attribute LogoutTime date yyMMddHHmmss\n");
 		bw.append("@attribute AvgUserProcesses numeric\n");
 		bw.append("@attribute MaxUserProcesses numeric\n");
 		bw.append("@attribute CharsTyped numeric\n");
@@ -38,6 +38,7 @@ public class LoginARFFBuilder extends ARFFBuilder {
 	@Override
 	public void addDataInstance(String instance) throws IOException, ParseException {
 		String temp = "";
+		String eventDate = "";
 		List<String> attributes = Arrays.asList(instance.split(","));
 		
 		logger.debug("Instance: " + instance);
@@ -59,22 +60,22 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		bw.append(temp + ",");
 		
 		// EventDate
-		temp = convertDateFormat(attributes.get(3));
-		logger.trace("EventDate (flipped to yyMMdd): " + temp);
-		bw.append(temp + ",");
+		eventDate = convertDateFormat(attributes.get(3));
+		logger.trace("EventDate (flipped to yyMMdd): " + eventDate);
+		bw.append(eventDate + ",");
 		
 		// EventDay
-		temp = getDay(temp);
+		temp = getDay(eventDate);
 		logger.trace("EventDay (yyMMdd): " + temp);
 		bw.append(temp + ",");
 		
 		// LoginDateTime
-		temp = attributes.get(4);
+		temp = eventDate + attributes.get(4);
 		logger.trace("Login Time: " + temp);
 		bw.append(temp + ",");
 		
 		// LogoutDateTime
-		temp = attributes.get(5);
+		temp = eventDate + attributes.get(5);
 		logger.trace("Logout Time: " + temp);
 		bw.append(temp + ",");
 		

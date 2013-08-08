@@ -31,7 +31,7 @@ public class EmailARFFBuilder extends ARFFBuilder {
 	protected void writeARFFHeaderCustom() throws IOException {
 		bw.append("@attribute EventDate date yyMMdd\n");
 		bw.append("@attribute EventDay {mon,tue,wed,thu,fri,sat,sun}\n");
-		bw.append("@attribute StartTime date HHmmss\n");
+		bw.append("@attribute StartTime date yyMMddHHmmss\n");
 		bw.append("@attribute EmailProgramID " + emailProgramIDRange + "\n");
 		bw.append("@attribute Address string\n");
 		bw.append("@attribute Action " + emailActionRange + "\n");
@@ -44,6 +44,7 @@ public class EmailARFFBuilder extends ARFFBuilder {
 	@Override
 	public void addDataInstance(String instance) throws IOException, ParseException {
 		String temp = "";
+		String eventDate = "";
 		List<String> attributes = Arrays.asList(instance.split(","));
 		
 		logger.debug("Instance: " + instance);
@@ -65,17 +66,17 @@ public class EmailARFFBuilder extends ARFFBuilder {
 		bw.append(temp + ",");
 		
 		// EventDate
-		temp = convertDateFormat(attributes.get(3));
-		logger.trace("EventDate (flipped to yyMMdd): " + temp);
-		bw.append(temp + ",");
+		eventDate = convertDateFormat(attributes.get(3));
+		logger.trace("EventDate (flipped to yyMMdd): " + eventDate);
+		bw.append(eventDate + ",");
 
 		// EventDay
-		temp = getDay(temp);
+		temp = getDay(eventDate);
 		logger.trace("EventDay (yyMMdd): " + temp);
 		bw.append(temp + ",");
 		
 		// StartTime
-		temp = attributes.get(4);
+		temp = eventDate + attributes.get(4);
 		logger.trace("StartTime: " + temp);
 		bw.append(temp + ",");
 		
