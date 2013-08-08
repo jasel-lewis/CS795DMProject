@@ -1,6 +1,7 @@
 package com.jasel.classes.cs795dm.project;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 	@Override
 	protected void writeARFFHeaderCustom() throws IOException {
 		bw.append("@attribute EventDate date yyMMdd\n");
+		bw.append("@attribute EventDay {mon,tue,wed,thu,fri,sat,sun}\n");
 		bw.append("@attribute StartTime date HHmmss\n");
 		bw.append("@attribute ProgramID " + programIDRange + "\n");
 		bw.append("@attribute ExecutionTime numeric\n");
@@ -45,7 +47,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 	
 	
 	@Override
-	public void addDataInstance(String instance) throws IOException {
+	public void addDataInstance(String instance) throws IOException, ParseException {
 		String temp = "";
 		List<String> attributes = Arrays.asList(instance.split(","));
 		
@@ -70,6 +72,11 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		// EventDate
 		temp = convertDateFormat(attributes.get(3));
 		logger.trace("EventDate (flipped to yyMMdd): " + temp);
+		bw.append(temp + ",");
+
+		// EventDay
+		temp = getDay(temp);
+		logger.trace("EventDay (yyMMdd): " + temp);
 		bw.append(temp + ",");
 		
 		// StartTime

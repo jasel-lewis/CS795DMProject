@@ -3,6 +3,11 @@ package com.jasel.classes.cs795dm.project;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -75,8 +80,9 @@ public abstract class ARFFBuilder {
 	 * ARFF file
 	 * @param instance
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
-	protected abstract void addDataInstance(String instance) throws IOException;
+	protected abstract void addDataInstance(String instance) throws IOException, ParseException;
 	
 	
 	
@@ -101,5 +107,41 @@ public abstract class ARFFBuilder {
 	 */
 	protected String convertDateFormat(String date) {
 		return (date.substring(4) + date.substring(0, 4));
+	}
+	
+	
+	/**
+	 * This method determines what day of the week is represented by the passed date (expected
+	 * to be in yyMMdd format).  Returned String will be one of {mon,tue,wed,thu,fri,sat,sun}.
+	 * @param date
+	 * @return
+	 * @throws ParseException 
+	 */
+	protected String getDay(String date) throws ParseException {
+		int day = 0;
+		
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.setTime(new SimpleDateFormat("yyMMdd").parse(date));
+		day = calendar.get(Calendar.DAY_OF_WEEK);
+		
+		switch (day) {
+			case Calendar.MONDAY:
+				return "mon";
+			case Calendar.TUESDAY:
+				return "tue";
+			case Calendar.WEDNESDAY:
+				return "wed";
+			case Calendar.THURSDAY:
+				return "thu";
+			case Calendar.FRIDAY:
+				return "fri";
+			case Calendar.SATURDAY:
+				return "sat";
+			case Calendar.SUNDAY:
+				return "sun";
+			default:
+				return "UNDEF";
+		}
 	}
 }

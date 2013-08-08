@@ -1,6 +1,7 @@
 package com.jasel.classes.cs795dm.project;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class LoginARFFBuilder extends ARFFBuilder {
 	@Override
 	protected void writeARFFHeaderCustom() throws IOException {
 		bw.append("@attribute EventDate date yyMMdd\n");
+		bw.append("@attribute EventDay {mon,tue,wed,thu,fri,sat,sun}\n");
 		bw.append("@attribute LoginTime date HHmmss\n");
 		bw.append("@attribute LogoutTime date HHmmss\n");
 		bw.append("@attribute AvgUserProcesses numeric\n");
@@ -34,9 +36,8 @@ public class LoginARFFBuilder extends ARFFBuilder {
 	
 	
 	@Override
-	public void addDataInstance(String instance) throws IOException {
+	public void addDataInstance(String instance) throws IOException, ParseException {
 		String temp = "";
-		String eventDate = "";
 		List<String> attributes = Arrays.asList(instance.split(","));
 		
 		logger.debug("Instance: " + instance);
@@ -58,9 +59,14 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		bw.append(temp + ",");
 		
 		// EventDate
-		eventDate = convertDateFormat(attributes.get(3));
-		logger.trace("EventDate (flipped to yyMMdd): " + eventDate);
-		bw.append(eventDate + ",");
+		temp = convertDateFormat(attributes.get(3));
+		logger.trace("EventDate (flipped to yyMMdd): " + temp);
+		bw.append(temp + ",");
+		
+		// EventDay
+		temp = getDay(temp);
+		logger.trace("EventDay (yyMMdd): " + temp);
+		bw.append(temp + ",");
 		
 		// LoginDateTime
 		temp = attributes.get(4);
