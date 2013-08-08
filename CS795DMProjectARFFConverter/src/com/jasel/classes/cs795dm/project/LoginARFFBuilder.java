@@ -2,11 +2,20 @@ package com.jasel.classes.cs795dm.project;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 /**
  * Class to support a login InstanceType
@@ -27,6 +36,7 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		bw.append("@attribute EventDay {mon,tue,wed,thu,fri,sat,sun}\n");
 		bw.append("@attribute LoginDateTime date yyMMddHHmmss\n");
 		bw.append("@attribute LogoutDateTime date yyMMddHHmmss\n");
+		bw.append("@attribute SessionDuration date HHmmss\n");
 		bw.append("@attribute AvgUserProcesses numeric\n");
 		bw.append("@attribute MaxUserProcesses numeric\n");
 		bw.append("@attribute CharsTyped numeric\n");
@@ -39,6 +49,8 @@ public class LoginARFFBuilder extends ARFFBuilder {
 	public void addDataInstance(String instance) throws IOException, ParseException {
 		String temp = "";
 		String eventDate = "";
+		String loginDateTime = "";
+		String logoutDateTime = "";
 		List<String> attributes = Arrays.asList(instance.split(","));
 		
 		logger.debug("Instance: " + instance);
@@ -70,13 +82,18 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		bw.append(temp + ",");
 		
 		// LoginDateTime
-		temp = eventDate + attributes.get(4);
-		logger.trace("LoginDateTime: " + temp);
-		bw.append(temp + ",");
+		loginDateTime = eventDate + attributes.get(4);
+		logger.trace("LoginDateTime: " + loginDateTime);
+		bw.append(loginDateTime + ",");
 		
 		// LogoutDateTime
-		temp = eventDate + attributes.get(5);
-		logger.trace("LogoutDateTime: " + temp);
+		logoutDateTime = eventDate + attributes.get(5);
+		logger.trace("LogoutDateTime: " + logoutDateTime);
+		bw.append(logoutDateTime + ",");
+		
+		// SessionDuration
+		temp = sessionDuration(loginDateTime, logoutDateTime);
+		logger.trace("SessionDuration: " + temp);
 		bw.append(temp + ",");
 		
 		// AvgUserProcess
@@ -104,5 +121,28 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		bw.flush();
 		
 		logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
+	}
+	
+	
+	
+	/**
+	 * Determine the session duration from the passed loginDateTime and logoutDateTime.  Both
+	 * parameters are expected to be in the yyMMddHHmmss format.  The return will be in HHmmss
+	 * format.
+	 * @param loginDateTime
+	 * @param logoutDateTime
+	 * @return
+	 */
+	private String sessionDuration(String loginDateTime, String logoutDateTime) {
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyMMddHHmmss").withLocale(Locale.ENGLISH);
+		DateTime loginDate = dtf.parseDateTime(loginDateTime);
+		DateTime logoutDate = dtf.parseDateTime(logoutDateTime);
+		Period period = new Period(loginDate, logoutDate);
+		
+		PeriodFormatter formatter = new PeriodFormatterBuilder()
+			.printZeroAlways().minimumPrintedDigits(2).maximumParsedDigits(2)
+			.appendHours().appendMinutes().appendSeconds().toFormatter();
+		
+		return(formatter.print(period));
 	}
 }
