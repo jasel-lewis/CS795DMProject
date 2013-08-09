@@ -37,7 +37,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		bw.append("@attribute EventDay {mon,tue,wed,thu,fri,sat,sun}\n");
 		bw.append("@attribute StartDateTime date yyMMddHHmmss\n");
 		bw.append("@attribute ProgramID " + programIDRange + "\n");
-		bw.append("@attribute ExecutionTime numeric\n");
+		bw.append("@attribute ExecutionTime date HHmmss\n");
 		bw.append("@attribute FileID " + fileIDRange + "\n");
 		bw.append("@attribute Action " + resourceActionRange + "\n");
 		bw.append("@attribute PrinterID " + printerIDRange + "\n");
@@ -92,7 +92,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		
 		// ExecutionTime
 		temp = attributes.get(6);
-		logger.trace("ExecutionTime: " + convertToSeconds(temp));
+		logger.trace("ExecutionTime: " + temp);
 		bw.append(temp);
 		
 		try {
@@ -130,21 +130,5 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		bw.flush();
 		
 		logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
-	}
-	
-	
-	
-	/**
-	 * Expects a string representing elapsed time in the format HHmmss and
-	 * converts to total seconds
-	 * @param time
-	 * @return
-	 */
-	private int convertToSeconds(String time) {
-		int hours = Integer.parseInt(time.substring(0, 2));
-		int minutes = Integer.parseInt(time.substring(2, 4));
-		int seconds = Integer.parseInt(time.substring(4));
-		
-		return((hours * 360) + (minutes * 60) + seconds);
 	}
 }
