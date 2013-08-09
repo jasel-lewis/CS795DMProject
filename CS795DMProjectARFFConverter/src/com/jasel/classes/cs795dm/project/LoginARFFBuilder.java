@@ -138,7 +138,7 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		Period period = new Period(loginDate, logoutDate);
 		
 		PeriodFormatter formatter = new PeriodFormatterBuilder()
-			.printZeroAlways().minimumPrintedDigits(2).maximumParsedDigits(2)
+			.printZeroAlways().minimumPrintedDigits(2)
 			.appendHours().appendMinutes().appendSeconds().toFormatter();
 		
 		return(formatter.print(period));
