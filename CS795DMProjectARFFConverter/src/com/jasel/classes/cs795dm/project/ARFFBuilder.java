@@ -22,8 +22,8 @@ public abstract class ARFFBuilder {
 	private String userIDRange = null;
 	private String hostMachineIDRange = null;
 	
-	public ARFFBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange)
-			throws IOException {
+	public ARFFBuilder(String filename, String instanceTypeRange, String userIDRange,
+			String hostMachineIDRange) throws IOException {
 		this.filename = filename;
 		this.instanceTypeRange = instanceTypeRange;
 		this.userIDRange = userIDRange;
@@ -96,7 +96,8 @@ public abstract class ARFFBuilder {
 	 * @throws IOException
 	 * @throws ParseException 
 	 */
-	protected abstract void addDataInstance(String instance) throws IOException, ParseException;
+	protected abstract void addDataInstance(String instance)
+			throws IOException, ParseException;
 	
 	
 	
@@ -112,10 +113,10 @@ public abstract class ARFFBuilder {
 	
 	
 	/**
-	 * The provided data presents a date in the MMddyy format.  We wish to utilize a decreasing
-	 * order of chronological granularity - specifically a yyMMdd format.  This method
-	 * expects a String representing a date in the MMddyy format and returns the same but
-	 * formatted as yyMMdd.
+	 * The provided data presents a date in the MMddyy format.  We wish to utilize a
+	 * decreasing order of chronological granularity - specifically a yyMMdd format.
+	 * This method expects a String representing a date in the MMddyy format and
+	 * returns the same but formatted as yyMMdd.
 	 * @param date
 	 * @return
 	 */
@@ -125,8 +126,9 @@ public abstract class ARFFBuilder {
 	
 	
 	/**
-	 * This method determines what day of the week is represented by the passed date (expected
-	 * to be in yyMMdd format).  Returned String will be one of {mon,tue,wed,thu,fri,sat,sun}.
+	 * This method determines what day of the week is represented by the passed date
+	 * (expected to be in yyMMdd format).  Returned String will be one of
+	 * {mon,tue,wed,thu,fri,sat,sun}.
 	 * @param date
 	 * @return
 	 * @throws ParseException 

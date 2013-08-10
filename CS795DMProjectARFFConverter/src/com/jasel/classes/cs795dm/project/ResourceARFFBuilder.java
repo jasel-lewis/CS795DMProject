@@ -19,8 +19,10 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 	private String resourceActionRange = null;
 	private String printerIDRange = null;
 	
-	public ResourceARFFBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange,
-			String programIDRange, String fileIDRange, String resourceActionRange, String printerIDRange) throws IOException {
+	public ResourceARFFBuilder(String filename, String instanceTypeRange,
+			String userIDRange, String hostMachineIDRange, String programIDRange,
+			String fileIDRange, String resourceActionRange, String printerIDRange)
+					throws IOException {
 		super(filename, instanceTypeRange, userIDRange, hostMachineIDRange);
 		
 		this.programIDRange = programIDRange;
@@ -128,23 +130,26 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		
 		bw.append("\n");
 		
-		// Hate to have to do it like this - thought I could trust BufferedWriter to handle itself
-		// but the output was consistently cutting out at a specific spot without this next line
+		// Hate to have to do it like this - thought I could trust BufferedWriter to
+		// handle itself but the output was consistently cutting out at a specific
+		// spot without this next line
 		bw.flush();
 		
-		logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
+		logger.info("Sent one Resource Pattern instance to the BufferedWriter for " +
+				"the file \"" + filename + "\".");
 	}
 	
 	
 	
 	/**
-	 * There were errors in the supplied project data where certain values provided for the
-	 * ExecutionTime attribute for a Resource instance had a value of 70 in the seconds field.
-	 * Weka complains straight away about such invalid time entries.  This method corrects
-	 * any minutes or seconds that have values > 59 by carrying-over to the next higher unit.
-	 * This method expects the passed string to be in HHmmss format, however, note that it is
-	 * possible for this method to accept and return a three (or more) digit hour.  This is
-	 * assumed to be acceptable, however, Weka might complain as it is told to expect HHmmss
+	 * There were errors in the supplied project data where certain values provided
+	 * for the ExecutionTime attribute for a Resource instance had a value of 70 in
+	 * the seconds field.  Weka complains straight away about such invalid time
+	 * entries.  This method corrects any minutes or seconds that have values > 59 by
+	 * carrying-over to the next higher unit.  This method expects the passed string
+	 * to be in HHmmss format, however, note that it is possible for this method to
+	 * accept and return a three (or more) digit hour.  This is assumed to be
+	 * acceptable, however, Weka might complain as it is told to expect HHmmss
 	 * formatting (as opposed to HHHmmss or (H+)Hmmss).
 	 * @param proposedTime
 	 * @return

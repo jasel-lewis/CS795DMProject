@@ -43,7 +43,8 @@ public class DataPreprocessor {
 		ResourceARFFBuilder resourceBuilder = null;
 		EmailARFFBuilder emailBuilder = null;
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(INPUT_FILENAME)));
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				new FileInputStream(INPUT_FILENAME)));
 		
 		String line = "";
 		int lineCount = 1;
@@ -53,33 +54,43 @@ public class DataPreprocessor {
 		
 		generateValueRanges();
 		
-		loginBuilder = new LoginARFFBuilder(LOGIN_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
-				sbUserIDRange.toString(), sbHostMachineIDRange.toString());
-		resourceBuilder = new ResourceARFFBuilder(RESOURCE_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
-				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbProgramIDRange.toString(),
-				sbFileIDRange.toString(), resourceActionRange, sbPrinterIDRange.toString());
-		emailBuilder = new EmailARFFBuilder(EMAIL_OUTPUT_FILENAME, sbInstanceTypeRange.toString(),
-				sbUserIDRange.toString(), sbHostMachineIDRange.toString(), sbEmailProgramIDRange.toString(),
+		loginBuilder = new LoginARFFBuilder(LOGIN_OUTPUT_FILENAME,
+				sbInstanceTypeRange.toString(), sbUserIDRange.toString(),
+				sbHostMachineIDRange.toString());
+		resourceBuilder = new ResourceARFFBuilder(RESOURCE_OUTPUT_FILENAME,
+				sbInstanceTypeRange.toString(), sbUserIDRange.toString(),
+				sbHostMachineIDRange.toString(), sbProgramIDRange.toString(),
+				sbFileIDRange.toString(), resourceActionRange,
+				sbPrinterIDRange.toString());
+		emailBuilder = new EmailARFFBuilder(EMAIL_OUTPUT_FILENAME,
+				sbInstanceTypeRange.toString(), sbUserIDRange.toString(),
+				sbHostMachineIDRange.toString(), sbEmailProgramIDRange.toString(),
 				emailActionRange);
 		
 		while ((line = br.readLine()) != null) {
 			logger.trace("** Line " + lineCount++);
 			
-			// For some reason, Excel is appending a bunch of empty commas as the end of each line
-			// when converting to CSV.  Get rid of them.
+			// For some reason, Excel is appending a bunch of empty commas as the end
+			// of each line when converting to CSV.  Get rid of them.
 			line = line.trim().replaceAll(",*$", "");
 			
 			switch (Integer.parseInt(line.substring(0, 1))) {
 				case InstanceType.LOGIN:
-					logger.info("Recognized a Login Pattern (# " + loginPatternCount++ + ") - sending to LoginPatternBuilder.");
+					logger.info("Recognized a Login Pattern (# "
+							+ loginPatternCount++
+							+ ") - sending to LoginPatternBuilder.");
 					loginBuilder.addDataInstance(line);
 					break;
 				case InstanceType.RESOURCE:
-					logger.info("Recognized a Resource Pattern (# " + resourcePatternCount++ + ") - sending to ResourcePatternBuilder.");
+					logger.info("Recognized a Resource Pattern (# " 
+							+ resourcePatternCount++
+							+ ") - sending to ResourcePatternBuilder.");
 					resourceBuilder.addDataInstance(line);
 					break;
 				case InstanceType.EMAIL:
-					logger.info("Recognized an Email Pattern (# " + emailPatternCount++ + ") - sending to EmailPatternBuilder");
+					logger.info("Recognized an Email Pattern (# "
+							+ emailPatternCount++
+							+ ") - sending to EmailPatternBuilder");
 					emailBuilder.addDataInstance(line);
 					break;
 				default:
@@ -96,8 +107,8 @@ public class DataPreprocessor {
 	
 	
 	/**
-	 * Create ranges for the attributes that have them as specified by the specifications
-	 * for the project (projspecs.pdf)
+	 * Create ranges for the attributes that have them as specified by the
+	 * specifications for the project (projspecs.pdf)
 	 */
 	private static void generateValueRanges() {
 		// Generate InstanceType value range

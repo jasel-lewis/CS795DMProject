@@ -21,8 +21,8 @@ import org.joda.time.format.PeriodFormatterBuilder;
 public class LoginARFFBuilder extends ARFFBuilder {
 	private static Logger logger = LogManager.getLogger(LoginARFFBuilder.class);
 	
-	public LoginARFFBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange)
-			throws IOException {
+	public LoginARFFBuilder(String filename, String instanceTypeRange,
+			String userIDRange, String hostMachineIDRange) throws IOException {
 		super(filename, instanceTypeRange, userIDRange, hostMachineIDRange);
 		
 		writeHeaders();
@@ -117,25 +117,28 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		logger.trace("CPUTime: " + temp);
 		bw.append(temp + "\n");
 		
-		// Hate to have to do it like this - thought I could trust BufferedWriter to handle itself
-		// but the output was consistently cutting out at a specific spot without this next line
+		// Hate to have to do it like this - thought I could trust BufferedWriter to
+		// handle itself but the output was consistently cutting out at a specific
+		// spot without this next line
 		bw.flush();
 		
-		logger.info("Sent one Login Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
+		logger.info("Sent one Login Pattern instance to the BufferedWriter for the " +
+				"file \"" + filename + "\".");
 	}
 	
 	
 	
 	/**
-	 * Determine the session duration from the passed loginDateTime and logoutDateTime.  Both
-	 * parameters are expected to be in the yyMMddHHmmss format.  The return will be in HHmmss
-	 * format.
+	 * Determine the session duration from the passed loginDateTime and
+	 * logoutDateTime.  Both parameters are expected to be in the yyMMddHHmmss format.
+	 * The return will be in HHmmss format.
 	 * @param loginDateTime
 	 * @param logoutDateTime
 	 * @return
 	 */
 	private String sessionDuration(String loginDateTime, String logoutDateTime) {
-		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyMMddHHmmss").withLocale(Locale.ENGLISH);
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyMMddHHmmss")
+				.withLocale(Locale.ENGLISH);
 		DateTime loginDate = dtf.parseDateTime(loginDateTime);
 		DateTime logoutDate = dtf.parseDateTime(logoutDateTime);
 		Period period = new Period(loginDate, logoutDate);
