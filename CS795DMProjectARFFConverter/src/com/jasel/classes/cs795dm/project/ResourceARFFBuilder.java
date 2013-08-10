@@ -109,7 +109,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 			logger.trace("Action: " + temp);
 			bw.append("," + temp);
 		} catch (IndexOutOfBoundsException ioobe) {
-			bw.append(",,");
+			bw.append(",?,?");
 		}
 		
 		try {
@@ -123,7 +123,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 			logger.trace("Pages: " + temp);
 			bw.append("," + temp);
 		} catch (IndexOutOfBoundsException ioobe) {
-			bw.append(",,");
+			bw.append(",?,?");
 		}
 		
 		bw.append("\n");
