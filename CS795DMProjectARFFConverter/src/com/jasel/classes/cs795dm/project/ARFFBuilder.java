@@ -51,7 +51,17 @@ public abstract class ARFFBuilder {
 	 * @throws IOException
 	 */
 	private void writeARFFHeaderHeader() throws IOException {
-		bw.append("@relation logindata\n\n");
+		String relation = "";
+		
+		if (this instanceof LoginARFFBuilder) {
+			relation = "logindata";
+		} else if (this instanceof ResourceARFFBuilder) {
+			relation = "resourcedata";
+		} else if (this instanceof EmailARFFBuilder) {
+			relation = "emaildata";
+		}
+
+		bw.append("@relation " + relation + "\n\n");
 		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
