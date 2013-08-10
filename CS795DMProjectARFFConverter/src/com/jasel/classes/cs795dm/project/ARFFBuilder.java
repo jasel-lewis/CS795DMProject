@@ -32,7 +32,11 @@ public abstract class ARFFBuilder {
 		bw = new BufferedWriter(new FileWriter(filename));
 		
 		logger.info("Opened the file \"" + filename + "\" for writing.");
-		
+	}
+	
+	
+	
+	protected void writeHeaders() throws IOException {
 		writeARFFHeaderHeader();
 		writeARFFHeaderCustom();
 		writeARFFHeaderFooter();
@@ -51,6 +55,7 @@ public abstract class ARFFBuilder {
 		bw.append("@attribute InstanceType " + instanceTypeRange + "\n");
 		bw.append("@attribute UserID " + userIDRange + "\n");
 		bw.append("@attribute HostMachineID " + hostMachineIDRange + "\n");
+		bw.flush();
 	}
 	
 	
@@ -69,6 +74,7 @@ public abstract class ARFFBuilder {
 	 */
 	private void writeARFFHeaderFooter() throws IOException {
 		bw.append("\n@data\n");
+		bw.flush();
 	}
 	
 	

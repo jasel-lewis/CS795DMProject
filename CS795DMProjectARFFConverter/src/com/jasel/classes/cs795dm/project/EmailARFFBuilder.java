@@ -23,6 +23,8 @@ public class EmailARFFBuilder extends ARFFBuilder {
 		
 		this.emailProgramIDRange = emailProgramIDRange;
 		this.emailActionRange = emailActionRange;
+		
+		writeHeaders();
 	}
 	
 	
@@ -37,6 +39,7 @@ public class EmailARFFBuilder extends ARFFBuilder {
 		bw.append("@attribute Action " + emailActionRange + "\n");
 		bw.append("@attribute Bytes numeric\n");
 		bw.append("@attribute Attachments numeric\n");
+		bw.flush();
 	}
 	
 	

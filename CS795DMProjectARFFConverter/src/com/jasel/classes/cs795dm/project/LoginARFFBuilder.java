@@ -24,6 +24,8 @@ public class LoginARFFBuilder extends ARFFBuilder {
 	public LoginARFFBuilder(String filename, String instanceTypeRange, String userIDRange, String hostMachineIDRange)
 			throws IOException {
 		super(filename, instanceTypeRange, userIDRange, hostMachineIDRange);
+		
+		writeHeaders();
 	}
 	
 	
@@ -39,6 +41,7 @@ public class LoginARFFBuilder extends ARFFBuilder {
 		bw.append("@attribute MaxUserProcesses numeric\n");
 		bw.append("@attribute CharsTyped numeric\n");
 		bw.append("@attribute CPUTime numeric\n");
+		bw.flush();
 	}
 	
 	

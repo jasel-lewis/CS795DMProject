@@ -27,6 +27,8 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		this.fileIDRange = fileIDRange;
 		this.resourceActionRange = resourceActionRange;
 		this.printerIDRange = printerIDRange;
+		
+		writeHeaders();
 	}
 	
 	
@@ -42,6 +44,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		bw.append("@attribute Action " + resourceActionRange + "\n");
 		bw.append("@attribute PrinterID " + printerIDRange + "\n");
 		bw.append("@attribute Pages numeric\n");
+		bw.flush();
 	}
 	
 	
