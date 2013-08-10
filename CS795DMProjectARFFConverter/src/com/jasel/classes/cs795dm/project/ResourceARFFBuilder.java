@@ -94,7 +94,7 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		bw.append(temp + ",");
 		
 		// ExecutionTime
-		temp = attributes.get(6);
+		temp = renderValidTime(attributes.get(6));
 		logger.trace("ExecutionTime: " + temp);
 		bw.append(temp);
 		
@@ -102,12 +102,12 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 			// FileID
 			temp = attributes.get(7);
 			logger.trace("FileID: " + temp);
-			bw.append(temp);
+			bw.append("," + temp);
 			
 			// Action
 			temp = attributes.get(8);
 			logger.trace("Action: " + temp);
-			bw.append(temp);
+			bw.append("," + temp);
 		} catch (IndexOutOfBoundsException ioobe) {
 			bw.append(",,");
 		}
@@ -116,12 +116,12 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 			// PrinterID
 			temp = attributes.get(9);
 			logger.trace("PrinterID: " + temp);
-			bw.append(temp);
+			bw.append("," + temp);
 			
 			// Pages
 			temp = attributes.get(10);
 			logger.trace("Pages: " + temp);
-			bw.append(temp);
+			bw.append("," + temp);
 		} catch (IndexOutOfBoundsException ioobe) {
 			bw.append(",,");
 		}
@@ -133,5 +133,72 @@ public class ResourceARFFBuilder extends ARFFBuilder {
 		bw.flush();
 		
 		logger.info("Sent one Resource Pattern instance to the BufferedWriter for the file \"" + filename + "\".");
+	}
+	
+	
+	
+	/**
+	 * There were errors in the supplied project data where certain values provided for the
+	 * ExecutionTime attribute for a Resource instance had a value of 70 in the seconds field.
+	 * Weka complains straight away about such invalid time entries.  This method corrects
+	 * any minutes or seconds that have values > 59 by carrying-over to the next higher unit.
+	 * This method expects the passed string to be in HHmmss format, however, note that it is
+	 * possible for this method to accept and return a three (or more) digit hour.  This is
+	 * assumed to be acceptable, however, Weka might complain as it is told to expect HHmmss
+	 * formatting (as opposed to HHHmmss or (H+)Hmmss).
+	 * @param proposedTime
+	 * @return
+	 */
+	private String renderValidTime(String proposedTime) {
+		int seconds = 0;
+		int minutes = 0;
+		int hours = 0;
+		int length = 0;
+		
+		length = proposedTime.length();
+		seconds = Integer.parseInt(proposedTime.substring((length - 2), length));
+		
+		// "Pop" off the last two characters (the seconds)
+		proposedTime = proposedTime.substring(0, (length - 2));
+		
+		length = proposedTime.length();
+		minutes = Integer.parseInt(proposedTime.substring((length - 2), length));
+		
+		// "Pop" off the last two characters (the minutes)
+		proposedTime = proposedTime.substring(0, (length - 2));
+		
+		hours = Integer.parseInt(proposedTime);
+		
+		StringBuilder sb = new StringBuilder();
+		
+		if (seconds > 59) {
+			seconds -= 60;
+			minutes++;
+		}
+		
+		if (minutes > 59) {
+			minutes -= 60;
+			hours++;
+		}
+		
+		if (hours < 10) {
+			sb.append(String.format("%02d", hours));
+		} else {
+			sb.append(hours);
+		}
+		
+		if (minutes < 10) {
+			sb.append(String.format("%02d", minutes));
+		} else {
+			sb.append(minutes);
+		}
+		
+		if (seconds < 10) {
+			sb.append(String.format("%02d", seconds));
+		} else {
+			sb.append(seconds);
+		}
+		
+		return (sb.toString());
 	}
 }
