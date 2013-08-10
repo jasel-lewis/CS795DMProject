@@ -30,8 +30,8 @@ public class DataPreprocessor {
 	private static StringBuilder sbPrinterIDRange = new StringBuilder("{PR1");
 	private static StringBuilder sbEmailProgramIDRange = new StringBuilder("{E1");
 	private static StringBuilder sbHostMachineIDRange = new StringBuilder("{M01");
-	private static String resourceActionRange = new String("R,RW,W");
-	private static String emailActionRange = new String("S,R");
+	private static String resourceActionRange = new String("{R,RW,W}");
+	private static String emailActionRange = new String("{S,R}");
 
 	/**
 	 * @param args
